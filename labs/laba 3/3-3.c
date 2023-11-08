@@ -11,7 +11,7 @@ int main()
 
 {
 
-int arr[100][100],i,j;
+int mas[100][100],i,j;
 srand(time(NULL));
 
 int N; // N - размер массива
@@ -22,13 +22,13 @@ printf("Исходная матрица: \n");
 
 for (i = 0;i < N; i++) {
     for(j = 0; j < N; j++) {
-        arr[i][j] = rand()%100;
+        mas[i][j] = rand()%100;
     }
 }
 
 for (i = 0; i < N; i++) {
     for(j = 0; j < N; j++) {
-    printf("%4d", arr[i][j]);
+    printf("%4d", mas[i][j]);
     }
     
     printf("\n");
