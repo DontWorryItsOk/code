@@ -4,24 +4,32 @@
 элемент*/
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
-int main()
-{   
-    int mas[5][5];
-    int i, N, j ;
-    srand(time(NULL));
-    
-    printf("Введите размер массива:");
-    scanf("%d",&N);
+#include <stdlib.h>
 
-for (i=0;i<5;i++)
-    for(j=0;j<5;j++)
-        mas[i][j] = rand()%100;
-for (i=0;i<5;i++)
+int main() 
+
 {
-    for(j=0;j<5;j++)
-        printf("%4d", mas[i][j]);
-        printf("\n");
-}
+
+int arr[100][100],i,j;
+srand(time(NULL));
+
+int N; // N - размер массива
+printf("Введите размер квадратной матрицы: ");
+scanf("%d", &N);
+
+printf("Исходная матрица: \n");
+
+for (i = 0;i < N; i++) {
+    for(j = 0; j < N; j++) {
+        arr[i][j] = rand()%100;
     }
+}
+
+for (i = 0; i < N; i++) {
+    for(j = 0; j < N; j++) {
+    printf("%4d", arr[i][j]);
+    }
+    
+    printf("\n");
+}
