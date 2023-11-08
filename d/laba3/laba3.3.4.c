@@ -17,7 +17,7 @@ scanf("%d", &N);
 
 printf("Исходная матрица: \n");
 
-for (i = 0;i < N; i++) {
+for (i = 0; i < N; i++) {
     for(j = 0; j < N; j++) {
         arr[i][j] = rand()%100;
     }
@@ -27,7 +27,6 @@ for (i = 0; i < N; i++) {
     for(j = 0; j < N; j++) {
     printf("%4d", arr[i][j]);
     }
-    
     printf("\n");
 }
 
@@ -49,7 +48,6 @@ for (i = 0;i < N; i++) {
     for(j = 0; j < N; j++) {
     printf("%4d", arr[i][j]);
     }
-    
     printf("\n");
 }
 
