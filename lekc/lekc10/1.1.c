@@ -45,6 +45,7 @@ void show(void) {
 }
 
 int main() {
+    int m;
     students tmp;
     show();
     do {
@@ -56,7 +57,7 @@ int main() {
         scanf("%d", &tmp.group);
         add(tmp);
         printf("Еще? 0 - нет");
-        scanf("%d", &m); // откуда m????
+        scanf("%d", &m);
     }
     while(m);
     show();
