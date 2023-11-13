@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 int main() {
     int ax, bx, cx;
     printf("Введите координату Х точки А: ");
