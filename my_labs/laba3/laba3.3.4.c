@@ -20,14 +20,9 @@ printf("Исходная матрица: \n");
 for (i = 0; i < N; i++) {
     for(j = 0; j < N; j++) {
         arr[i][j] = rand()%100;
+        printf("%4d", arr[i][j]);
     }
-}
-
-for (i = 0; i < N; i++) {
-    for(j = 0; j < N; j++) {
-    printf("%4d", arr[i][j]);
-    }
-    printf("\n");
+     printf("\n");
 }
 
 int tmp;
@@ -42,7 +37,7 @@ for (i = N-1; i >= 0; i--) {
 }
 // формула побочной диагонали: j=5-i
 
-printf("Симметричная матрица: \n"); 
+printf("Преобразованная матрица: \n"); 
 
 for (i = 0;i < N; i++) {
     for(j = 0; j < N; j++) {
