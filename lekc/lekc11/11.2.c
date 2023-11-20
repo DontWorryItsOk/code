@@ -28,5 +28,6 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-void rewind(FILE *fp) {
-}
+/* ????????? 
+void rewind(FILE *fp) {}
+*/
