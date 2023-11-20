@@ -27,10 +27,10 @@ INFO pop(void) {
 
 void show(void) {
     struct NODE *tmp = top;
-    printf("Содержимое стека: ");
+    printf("\nСодержимое стека: \n");
     
     if(tmp == NULL) {
-        printf("Стек пуст ");
+        printf("Стек пуст\n");
         return;
     }
 
@@ -44,7 +44,7 @@ int main() {
     INFO val;
     show();
     do {
-        printf("Введите элемент, 0 - конец ");
+        printf("Введите элемент, 0 - конец\n");
         scanf("%d", &val);
         if(!val) break;
         push(val);
