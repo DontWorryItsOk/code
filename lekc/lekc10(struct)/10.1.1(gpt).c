@@ -71,6 +71,6 @@ int main() {
     show();
     tmp=del();
     printf("Первый в очереди: \n");
-    printf("%s, %d из %d \n", tmp.FIO, tmp.course, tmp.group);
+    printf("%s, %d из %d\n", tmp.FIO, tmp.course, tmp.group);
     return 0;
 }
