@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 // Функция для определения дня недели по алгоритму Зеллера
-int getDayOfWeek(int year) {
+int getDayOfWeek(int year) 
+{
     int day, month, k, q, m, j;
 
     day = 1;
@@ -20,7 +21,8 @@ int getDayOfWeek(int year) {
 }
 
 // Функция для определения дня выборов
-int getElectionDay(int year) {
+int getElectionDay(int year) 
+{
     // Определяем первый понедельник ноября в заданном году
     int firstMonday = 1 + (8 - getDayOfWeek(year)) % 7;
 
@@ -30,7 +32,8 @@ int getElectionDay(int year) {
     return electionDay;
 }
 
-int main() {
+int main() 
+{
     int year;
 
     // Ввод года
