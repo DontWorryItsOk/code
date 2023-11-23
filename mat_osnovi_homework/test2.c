@@ -12,6 +12,7 @@ void dvoichn_in_des(char second[50], int *p_des) {
             des += 1 * pow(2, length - i - 1);
         }
     }
+    printf("\n%d ", des);
     *p_des = des;  // Сохраняем значение des через указатель
 }
 
@@ -36,7 +37,7 @@ int main() {
 
     printf("Введите 2-й операнд (число в 2-й сис-ме счисления): ");
     scanf("%s", second);
-
+    
     dvoichn_in_des(second, &des);
     calculations(first, &des);
 
