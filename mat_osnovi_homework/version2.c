@@ -13,11 +13,25 @@
 #include <math.h>
 #include <stdlib.h>
 
+void des_to_dvoichn(int des) {
+    int arr[50];
+    int i = 0;
+
+    while (des > 0) {
+        arr[i] = des % 2;
+        des = des / 2;
+        i++;
+    }
+
+    for(int j = i - 1; j >=0; j--) {
+        printf("%d", arr[j]);
+    }
+}
 
 int dvoichn_in_des(char second[50]) {
     int length = strlen(second);
     int des = 0, i = 0;
-    for (i = 0; i < 50; i++) {
+    for (i = 0; i < length + 1; i++) {
         if (second[i] == '1') {
             des += 1 * pow(2, length - i - 1);
         }
@@ -31,11 +45,14 @@ void calculations(int first, int des) {
     int proizv = first * des;
     float delenie = (float)first / des;
 
-    printf("\nСумма чисел равна %d ", sum);
-    printf("\nРазность чисел равна %d ", razn);
-    printf("\nПроизведение чисел равно %d ", proizv);
-    printf("\nЧастное чисел равно %.2f", delenie);
-    // добавить перевод в двоичную систему
+    printf("\nСумма чисел равна ");
+    des_to_dvoichn(sum);
+    printf("\nРазность чисел равна ");
+    des_to_dvoichn(razn);
+    printf("\nПроизведение чисел равно ");
+    des_to_dvoichn(proizv);
+    printf("\nЧастное чисел равно ");
+    des_to_dvoichn(delenie);
 }
 
 int main() {
@@ -43,7 +60,7 @@ int main() {
     char second[50];
 
     printf("Введите 1-й операнд (число в 16-й сис-ме счисления): ");
-    scanf("%x", &first);
+    scanf("%x", &first); // %x - ввод числа в 16-й сис-ме счисления
     
     if(first > 65535) { // проверка вводимых значений - ограничение в 65535 - для 16-битовых чисел
         printf("Вы ввели неправильное/слишком большое число");
@@ -53,10 +70,10 @@ int main() {
     printf("Введите 2-й операнд (число в 2-й сис-ме счисления): ");
     scanf("%s", second);
 
-    for(int i = 0; i < (strlen(second)); i++) { // проверка вводимых значений
-    printf("%d", strlen(second));
+    int length = strlen(second); // длина полученного масива
+    for(int i = 0; i < length; i++) { // проверка вводимых значений
         if(second[i] != '0' && second[i] != '1') {
-            printf("Вы ввели число не в двоичной системе счисления");
+            printf("\nВы ввели число не в двоичной системе счисления");
             exit(1);
         }
     }
@@ -66,3 +83,4 @@ int main() {
 
     return 0;
 }
+// A1 и 1010 провереноL
