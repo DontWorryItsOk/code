@@ -56,23 +56,11 @@ void decimal_in_dvoichn(float decimal) {
 int dvoichn_in_des(char second[50]) {
     int length = strlen(second);
     int des = 0, i = 0;
-    
-    if(second[0] == '0' || second[0] == '1') {
     for (i = 0; i < length; i++) {
         if (second[i] == '1') {
             des += 1 * pow(2, length - i - 1);
         }
     }
-    }
-
-    if(second[0] == '-') {
-        for (i = 0; i < length; i++) {
-        if (second[i] == '1') {
-            des -= 1 * pow(2, length - i - 1);
-        }
-    }
-    }
-
     return des;
 }
 
@@ -124,7 +112,7 @@ int main() {
 
     int length = strlen(second);
     for (int i = 0; i < length; i++) { // проверка вводимых значений
-        if (second[i] != '0' && second[i] != '1' && second[0] != '-') {
+        if (second[i] != '0' && second[i] != '1') {
             printf("\nВы ввели число не в двоичной системе счисления");
             exit(1);
         }
@@ -135,4 +123,4 @@ int main() {
 
     return 0;
 }
-// пофиксить частное чисел, остальное работает нормально, даже если оба числа отрицательные
+// посмотреть что будет если вычесть из меньшего большее
