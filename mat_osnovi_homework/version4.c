@@ -9,10 +9,23 @@ void des_to_dvoichn(int des) {
 
     if (des == 0) {
         printf("0");
-    } 
+    }
+
+    else if (des < 0) {
+        des = fabs(des); // берем модуль числа
+          while (des != 0) {
+            arr[i] = des % 2;
+            des = des / 2;
+            i++;
+        }
+        printf("-");
+        for (int j = i - 1; j >= 0; j--) {
+            printf("%d", arr[j]);
+        }
+    }
     
-    else {
-        while (des > 0) {
+    else if(des > 0) {
+        while (des != 0) {
             arr[i] = des % 2;
             des = des / 2;
             i++;
@@ -76,8 +89,8 @@ void calculations(int first, int des) {
         des_to_dvoichn((int)delenie);
         decimal_in_dvoichn(delenie - (int)delenie);
     } 
-    
-    else {
+
+    else { // проверка вводимых значений
         printf("\nЧастное чисел: Ошибка! На 0 делить нельзя!");
     }
 }
@@ -87,9 +100,9 @@ int main() {
     char second[50];
 
     printf("Введите 1-й операнд (число в 16-й сис-ме счисления): ");
-    scanf("%x", &first);
+    scanf("%x", &first); // %x - ввод числа в 16-й сис-ме счисления
 
-    if (first > 65535) {
+    if (first > 65535) { // проверка вводимых значений
         printf("Вы ввели неправильное/слишком большое число");
         exit(1);
     }
@@ -98,7 +111,7 @@ int main() {
     scanf("%s", second);
 
     int length = strlen(second);
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++) { // проверка вводимых значений
         if (second[i] != '0' && second[i] != '1') {
             printf("\nВы ввели число не в двоичной системе счисления");
             exit(1);

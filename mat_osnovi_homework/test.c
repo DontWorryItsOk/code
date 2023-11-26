@@ -1,62 +1,138 @@
-/* Написать калькулятор для целых чисел. Операнды и результат
-могут быть заданы в разных системах счисления.
-Требования:
-1. оконный интерфейс;
-2. контроль вводимых значений. 
-
-1 операнд - 16
-2 операнд - 2 
-результат - 2 */
-
 #include <stdio.h>
-#include <string.h> // для ф-ции strlen
+#include <string.h>
 #include <math.h>
+#include <stdlib.h>
 
-int i;
+void des_to_dvoichn(int des) {
+    int arr[50];
+    int i = 0;
 
-void schestn_in_des(int first) { // 16-я система автоматом переводится в десятичную и может выполнять операции с другими числами, функцию можно удалять
-    int a = first % 10;
-    printf("a = %d", a);
-    int b = 3059;
-    printf("\nfirst+b = %d", first+b);
-}
+    if (des == 0) {
+        printf("0");
+    }
 
-void dvoichn_in_des(char second[50]) {
-    int length = strlen(second);
-    int des = 0;
-    for(i = 0; i < 50; i++) {
-        if(second[i] == '1') {
-            des += 1*pow(2,length-i-1);
+    else if (des < 0) {
+        des = fabs(des); // берем модуль числа
+          while (des != 0) {
+            arr[i] = des % 2;
+            des = des / 2;
+            i++;
+        }
+        printf("-");
+        for (int j = i - 1; j >= 0; j--) {
+            printf("%d", arr[j]);
         }
     }
-    printf("\n%d ", des);
-    int *p_des = des;
+    
+    else if(des > 0) {
+        while (des != 0) {
+            arr[i] = des % 2;
+            des = des / 2;
+            i++;
+        }
+
+        for (int j = i - 1; j >= 0; j--) {
+            printf("%d", arr[j]);
+        }
+    }
+}
+
+void decimal_in_dvoichn(float decimal) {
+    
+    if(decimal == 0) {
+        // ничего не делаем
+    }
+
+    else {
+    printf(".");
+    for (int i = 0; i < 16; i++) { // до 16 знаков после запятой
+        decimal *= 2;
+        printf("%d", (int)decimal);
+        decimal -= (int)decimal;
+    }
+    }
+}
+
+int dvoichn_in_des(char second[50]) {
+    int length = strlen(second);
+    int des = 0, i = 0;
+    
+    if(second[0] == '0' || second[0] == '1') {
+    for (i = 0; i < length; i++) {
+        if (second[i] == '1') {
+            des += 1 * pow(2, length - i - 1);
+        }
+    }
+    }
+
+    if(second[0] == '-') {
+        for (i = 0; i < length; i++) {
+        if (second[i] == '1') {
+            des -= 1 * pow(2, length - i - 1);
+        }
+    }
+    }
+
+    return des;
 }
 
 void calculations(int first, int des) {
-    int sum = first + des;
-    int razn = first - des;
-    int proizv = first * des;
-    float delenie = (float)first / des;
-    printf("\nСумма чисел равна %d ", sum);
-    printf("\nРазность чисел равна %d ", razn);
-    printf("\nПроизведение чисел равно %d ", proizv);
-    printf("\nЧастное чисел равно %f", delenie);
+    int sum, razn, proizv;
+    float delenie;
+    sum = first + des;
+    razn = first - des;
+    proizv = first * des;
+    printf("proizv = %d", proizv); // это потом убрать
+
+    if (des == 0)
+        delenie = 0;
+    else
+        delenie = (float)first / des;
+
+    printf("\nСумма чисел: ");
+    des_to_dvoichn(sum);
+    printf("\nРазность чисел: ");
+    des_to_dvoichn(razn);
+    printf("\nПроизведение чисел: ");
+    des_to_dvoichn(proizv);
+
+    if (des != 0) {
+        printf("\nЧастное чисел: "); 
+        des_to_dvoichn((int)delenie);
+        decimal_in_dvoichn(delenie - (int)delenie);
+    } 
+
+    else { // проверка вводимых значений
+        printf("\nЧастное чисел: Ошибка! На 0 делить нельзя!");
+    }
 }
 
 int main() {
-    int first, des;
+    int first;
     char second[50];
-    
+
     printf("Введите 1-й операнд (число в 16-й сис-ме счисления): ");
-    scanf("%x", &first); // %x - число в 16-й сис-ме счисления
+    scanf("%x", &first); // %x - ввод числа в 16-й сис-ме счисления
+
+    if (first > 65535) { // проверка вводимых значений
+        printf("Вы ввели неправильное/слишком большое число");
+        exit(1);
+    }
 
     printf("Введите 2-й операнд (число в 2-й сис-ме счисления): ");
     scanf("%s", second);
-    
-    schestn_in_des(first);
-    dvoichn_in_des(second);
-    calculations(first, &des);
+
+    int length = strlen(second);
+    for (int i = 0; i < length; i++) { // проверка вводимых значений
+        if (second[i] != '0' && second[i] != '1' && second[0] != '-') {
+            printf("\nВы ввели число не в двоичной системе счисления");
+            exit(1);
+        }
+    }
+
+    int des = dvoichn_in_des(second);
+    calculations(first, des);
 
     return 0;
 }
+// пофиксить частное чисел, остальное работает нормально, даже если оба числа отрицательные
