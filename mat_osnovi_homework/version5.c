@@ -44,12 +44,13 @@ void decimal_in_dvoichn(float decimal) {
     }
 
     else {
-    printf(".");
-    for (int i = 0; i < 16; i++) { // до 16 знаков после запятой
-        decimal *= 2;
-        printf("%d", (int)decimal);
-        decimal -= (int)decimal;
-    }
+        decimal = fabs(decimal);
+        printf(",");
+        for (int i = 0; i < 16; i++) { // до 16 знаков после запятой
+            decimal *= 2;
+            printf("%d", (int)decimal);
+            decimal -= (int)decimal;
+        }
     }
 }
 
@@ -80,14 +81,19 @@ void calculations(int first, int des) {
     int sum, razn, proizv;
     float delenie;
     sum = first + des;
+    printf("\nsum = %d", sum); // это потом убрать
     razn = first - des;
+    printf("\nrazn = %d", razn); // это потом убрать
     proizv = first * des;
-    printf("proizv = %d", proizv); // это потом убрать
+    printf("\nproizv = %d", proizv); // это потом убрать
 
     if (des == 0)
         delenie = 0;
-    else
+    
+    else {
         delenie = (float)first / des;
+        printf("\ndelenie = %f", delenie); // это потом убрать
+    }
 
     printf("\nСумма чисел: ");
     des_to_dvoichn(sum);
@@ -100,6 +106,7 @@ void calculations(int first, int des) {
         printf("\nЧастное чисел: "); 
         des_to_dvoichn((int)delenie);
         decimal_in_dvoichn(delenie - (int)delenie);
+        printf("\nostatok del = %f", delenie - (int)delenie); // это потом убрать
     } 
 
     else { // проверка вводимых значений
@@ -132,7 +139,8 @@ int main() {
 
     int des = dvoichn_in_des(second);
     calculations(first, des);
-
+ 
     return 0;
 }
-// пофиксить частное чисел, остальное работает нормально, даже если оба числа отрицательные
+// все работает и с 0, и с отрицательным 2-м операндом, и когда 2 числа отрицательные
+// осталось добавить вычисления с дробными числами
