@@ -8,7 +8,6 @@ int getDayOfWeek(int year)
     day = 1;        // день месяца, для которого мы хотим определить день недели
     month = 11;     // Ноябрь
     k = year % 100; // год века (последние две цифры года)
-    q = 1;          // Это день месяца (1).
     m = month;
     j = year / 100; // столетие (первые две цифры года).
 
@@ -36,14 +35,12 @@ int main()
 {
     int year;
 
-    // Ввод года
     printf("Введите год: ");
     scanf("%d", &year);
 
     // Получаем день выборов
     int electionDay = getElectionDay(year);
 
-    // Вывод результата
     printf("Выборы в %d году будут во вторник, %d ноября.\n", year, electionDay);
 
     return 0;
