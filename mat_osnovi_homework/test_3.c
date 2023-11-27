@@ -54,38 +54,70 @@ void decimal_in_dvoichn(float decimal) {
     }
 }
 
-int dvoichn_in_des(char second[50]) {
-    int length = strlen(second);
-    int des = 0, i = 0;
-    
-    if(second[0] == '0' || second[0] == '1') {
-    for (i = 0; i < length; i++) {
-        if (second[i] == '1') {
-            des += 1 * pow(2, length - i - 1);
+float dvoichn_in_des(char binary[50]) {
+    int length = strlen(binary);
+    float result = 0;
+    int integerPart = 0;
+    float decimalPart = 0.0;
+    int hasDecimal = 0;
+    int stepen = -1; // степень для чисел после запятой
+
+    // Проверяем, есть ли дробная часть
+    for (int i = 0; i < length; i++) {
+        if (binary[i] == '.') {
+            hasDecimal = 1;
+            break;
         }
     }
-    }
 
-    if(second[0] == '-') {
-        for (i = 0; i < length; i++) {
-        if (second[i] == '1') {
-            des -= 1 * pow(2, length - i - 1);
+    // Обработка целой части
+    for (int i = 0; i < length; i++) {
+        // ДО ТОЧКИ
+        if(binary[i] == '.') { // ??????????
+          break;
+        }
+
+        if (binary[i] == '1') {
+            integerPart += 1 * pow(2, length - i - 1);
         }
     }
-    }
+    printf("\nintegerPart = %d", integerPart); // это потом убрать
 
-    return des;
+    // Обработка дробной части
+    if (hasDecimal == 1) {
+        int decimalStartIndex = 0;
+
+        for (int i = 0; i < length; i++) {
+            if (binary[i] == '.') {
+                decimalStartIndex = i + 1;
+                break;
+            }
+        }
+
+        printf("\nДробная часть: "); // это потом убрать
+        for (int i = decimalStartIndex; i < length; i++) {
+            if (binary[i] == '1') {
+                decimalPart += 1 * pow(2, stepen);
+                stepen--;
+                printf("\ndecimalPart1 = %f", decimalPart); // это потом убрать
+            }
+        }
+    }
+    printf("\ndecimalPart2 = %f", decimalPart); // это потом убрать
+    // Сложим целую и дробную части
+    result = integerPart + decimalPart;
+    printf("result = %f", result); // это потом убрать
+    return result;
 }
 
 void calculations(int first, int des) {
-    int sum, razn, proizv;
-    float delenie;
+    float sum, razn, proizv, delenie;
     sum = first + des;
-    printf("\nsum = %d", sum); // это потом убрать
+    printf("\nsum = %f", sum); // это потом убрать
     razn = first - des;
-    printf("\nrazn = %d", razn); // это потом убрать
+    printf("\nrazn = %f", razn); // это потом убрать
     proizv = first * des;
-    printf("\nproizv = %d", proizv); // это потом убрать
+    printf("\nproizv = %f", proizv); // это потом убрать
 
     if (des == 0)
         delenie = 0;
@@ -96,16 +128,20 @@ void calculations(int first, int des) {
     }
 
     printf("\nСумма чисел: ");
-    des_to_dvoichn(sum);
+    des_to_dvoichn((int)sum);
+    decimal_in_dvoichn((float)sum - (int)sum); // !!!!!!!!!!!!
+    printf("\nfloat sum = %f", (float)sum - (int)sum); // это потом убрать
     printf("\nРазность чисел: ");
-    des_to_dvoichn(razn);
+    des_to_dvoichn((int)razn);
+    decimal_in_dvoichn((float)razn - (int)razn); // !!!!!!!!!!!!!
     printf("\nПроизведение чисел: ");
-    des_to_dvoichn(proizv);
+    des_to_dvoichn((int)proizv);
+    decimal_in_dvoichn((float)proizv - (int)proizv); // !!!!!!!!!!!!
 
     if (des != 0) {
         printf("\nЧастное чисел: "); 
         des_to_dvoichn((int)delenie);
-        decimal_in_dvoichn(delenie - (int)delenie);
+        decimal_in_dvoichn(delenie - (int)delenie); 
         printf("\nostatok del = %f", delenie - (int)delenie); // это потом убрать
     } 
 
@@ -131,7 +167,7 @@ int main() {
 
     int length = strlen(second);
     for (int i = 0; i < length; i++) { // проверка вводимых значений
-        if (second[i] != '0' && second[i] != '1' && second[0] != '-') {
+        if (second[i] != '0' && second[i] != '1' && second[0] != '-' && second[i] != '.') {
             printf("\nВы ввели число не в двоичной системе счисления");
             exit(1);
         }

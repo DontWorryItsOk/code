@@ -45,7 +45,7 @@ void decimal_in_dvoichn(float decimal) {
 
     else {
         decimal = fabs(decimal);
-        printf(",");
+        printf(".");
         for (int i = 0; i < 16; i++) { // до 16 знаков после запятой
             decimal *= 2;
             printf("%d", (int)decimal);
@@ -64,7 +64,7 @@ float dvoichn_in_des(char binary[50]) {
 
     // Проверяем, есть ли дробная часть
     for (int i = 0; i < length; i++) {
-        if (binary[i] == ',') {
+        if (binary[i] == '.') {
             hasDecimal = 1;
             break;
         }
@@ -72,6 +72,7 @@ float dvoichn_in_des(char binary[50]) {
 
     // Обработка целой части
     for (int i = 0; i < length; i++) {
+        // ДО ТОЧКИ
         if (binary[i] == '1') {
             integerPart += 1 * pow(2, length - i - 1);
         }
@@ -82,7 +83,7 @@ float dvoichn_in_des(char binary[50]) {
         int decimalStartIndex = 0;
 
         for (int i = 0; i < length; i++) {
-            if (binary[i] == ',') {
+            if (binary[i] == '.') {
                 decimalStartIndex = i + 1;
                 break;
             }
@@ -123,18 +124,19 @@ void calculations(int first, int des) {
 
     printf("\nСумма чисел: ");
     des_to_dvoichn((int)sum);
-    decimal_in_dvoichn((float)sum); // !!!!!!!!!!!!
+    decimal_in_dvoichn((float)sum - (int)sum); // !!!!!!!!!!!!
+    printf("\nfloat sum = %f", (float)sum - (int)sum); // это потом убрать
     printf("\nРазность чисел: ");
     des_to_dvoichn((int)razn);
-    decimal_in_dvoichn((float)razn); // !!!!!!!!!!!!!
+    decimal_in_dvoichn((float)razn - (int)razn); // !!!!!!!!!!!!!
     printf("\nПроизведение чисел: ");
     des_to_dvoichn((int)proizv);
-    decimal_in_dvoichn((float)proizv); // !!!!!!!!!!!!
+    decimal_in_dvoichn((float)proizv - (int)proizv); // !!!!!!!!!!!!
 
     if (des != 0) {
         printf("\nЧастное чисел: "); 
         des_to_dvoichn((int)delenie);
-        decimal_in_dvoichn(delenie - (int)delenie);
+        decimal_in_dvoichn(delenie - (int)delenie); 
         printf("\nostatok del = %f", delenie - (int)delenie); // это потом убрать
     } 
 
@@ -160,7 +162,7 @@ int main() {
 
     int length = strlen(second);
     for (int i = 0; i < length; i++) { // проверка вводимых значений
-        if (second[i] != '0' && second[i] != '1' && second[0] != '-' && second[i] != ',') {
+        if (second[i] != '0' && second[i] != '1' && second[0] != '-' && second[i] != '.') {
             printf("\nВы ввели число не в двоичной системе счисления");
             exit(1);
         }
