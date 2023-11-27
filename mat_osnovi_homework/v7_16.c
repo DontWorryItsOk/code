@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 
+
 void des_to_dvoichn(int des) {
     int arr[50];
     int i = 0;
@@ -37,6 +38,7 @@ void des_to_dvoichn(int des) {
     }
 }
 
+
 void decimal_in_dvoichn(float decimal) {
     
     if(decimal == 0) {
@@ -50,9 +52,13 @@ void decimal_in_dvoichn(float decimal) {
             decimal *= 2;
             printf("%d", (int)decimal);
             decimal -= (int)decimal;
+            if(decimal == 0) {
+                break;
+            }
         }
     }
 }
+
 
 float dvoichn_in_des(char binary[50]) {
     int length = strlen(binary);
@@ -71,17 +77,33 @@ float dvoichn_in_des(char binary[50]) {
     }
 
     // Обработка целой части
-    for (int i = 0; i < length; i++) {
-        // ДО ТОЧКИ
-        if(binary[i] == '.') { // ??????????
-          break;
+    if (hasDecimal  == 1) {
+        int int_length = 0;
+
+        for (int i = 0; i < length; i++) {
+            if (binary[i] == '.') {
+                int_length = i;
+                break;
+            }
         }
 
+        int i = 0;
+        while(binary[i] != '.' ) {
+            if (binary[i] == '1') {
+                integerPart += 1 * pow(2, int_length-1-i);
+            }
+            i++;
+        }
+    }
+
+    if(hasDecimal == 0) {
+        for (int i = 0; i < length; i++) {
         if (binary[i] == '1') {
             integerPart += 1 * pow(2, length - i - 1);
         }
     }
-    printf("\nintegerPart = %d", integerPart); // это потом убрать
+    }
+    printf("\nintegerpart = %d", integerPart); // это потом убрать
 
     // Обработка дробной части
     if (hasDecimal == 1) {
@@ -98,21 +120,38 @@ float dvoichn_in_des(char binary[50]) {
         for (int i = decimalStartIndex; i < length; i++) {
             if (binary[i] == '1') {
                 decimalPart += 1 * pow(2, stepen);
-                stepen--;
                 printf("\ndecimalPart1 = %f", decimalPart); // это потом убрать
             }
+            stepen--;
         }
     }
-    printf("\ndecimalPart2 = %f", decimalPart); // это потом убрать
+    printf("\ndecimalPart = %f", decimalPart); // это потом убрать
     // Сложим целую и дробную части
     result = integerPart + decimalPart;
-    printf("result = %f", result); // это потом убрать
+    printf("\nresult = %f", result); // это потом убрать
     return result;
 }
 
-void calculations(int first, int des) {
+
+double hexStringToDouble(const char *hexInteger, const char *hexFraction) {
+    char fullHexString[40]; // предположим, что максимальная длина строки не превышает 40 символов
+    snprintf(fullHexString, sizeof(fullHexString), "0x%s.%sp0", hexInteger, hexFraction);
+
+    char *endptr;
+    return strtod(fullHexString, &endptr);
+}
+
+
+int isHexString(const char *str) {
+    // Проверка, что строка состоит только из шестнадцатеричных символов
+    return strspn(str, "0123456789ABCDEFabcdef") == strlen(str);
+}
+
+
+void calculations(float first, float des) {
     float sum, razn, proizv, delenie;
     sum = first + des;
+    printf("\nперед вычислениями: first = %f second = %f", first, des); // это потом убрать
     printf("\nsum = %f", sum); // это потом убрать
     razn = first - des;
     printf("\nrazn = %f", razn); // это потом убрать
@@ -130,7 +169,6 @@ void calculations(int first, int des) {
     printf("\nСумма чисел: ");
     des_to_dvoichn((int)sum);
     decimal_in_dvoichn((float)sum - (int)sum); // !!!!!!!!!!!!
-    printf("\nfloat sum = %f", (float)sum - (int)sum); // это потом убрать
     printf("\nРазность чисел: ");
     des_to_dvoichn((int)razn);
     decimal_in_dvoichn((float)razn - (int)razn); // !!!!!!!!!!!!!
@@ -150,17 +188,29 @@ void calculations(int first, int des) {
     }
 }
 
+
 int main() {
     int first;
     char second[50];
+    
+    char hexInteger[20], hexFraction[20];
+    double floatValue;
 
-    printf("Введите 1-й операнд (число в 16-й сис-ме счисления): ");
-    scanf("%x", &first); // %x - ввод числа в 16-й сис-ме счисления
+    printf("Введите 1-й операнд (целую часть шестнадцатеричного числа): ");
+    scanf("%s", hexInteger);
 
-    if (first > 65535) { // проверка вводимых значений
-        printf("Вы ввели неправильное/слишком большое число");
-        exit(1);
+    printf("Введите 1-й операнд (дробную часть шестнадцатеричного числа): ");
+    scanf("%s", hexFraction);
+
+    // Проверка ввода
+    if (!isHexString(hexInteger) || !isHexString(hexFraction)) {
+        printf("Ошибка: введены некорректные символы.\n");
+        return 1; // Возвращаем код ошибки
     }
+    
+    // Преобразование строки в вещественное число
+    floatValue = hexStringToDouble(hexInteger, hexFraction);
+
 
     printf("Введите 2-й операнд (число в 2-й сис-ме счисления): ");
     scanf("%s", second);
@@ -173,10 +223,20 @@ int main() {
         }
     }
 
-    int des = dvoichn_in_des(second);
+    float des = dvoichn_in_des(second);
     calculations(first, des);
  
     return 0;
 }
-// все работает и с 0, и с отрицательным 2-м операндом, и когда 2 числа отрицательные
-// осталось добавить вычисления с дробными числами
+/* 
+16-е вещественное число?
+
+
+варианты для проверки:
+A101 0
+0 110110
+A4F1 11001100
+B3C9 110110.1101110
+B3C9 110110.11011101
+
+*/

@@ -50,6 +50,9 @@ void decimal_in_dvoichn(float decimal) {
             decimal *= 2;
             printf("%d", (int)decimal);
             decimal -= (int)decimal;
+            if(decimal == 0) {
+                break;
+            }
         }
     }
 }
@@ -71,12 +74,33 @@ float dvoichn_in_des(char binary[50]) {
     }
 
     // Обработка целой части
-    for (int i = 0; i < length; i++) {
-        // ДО ТОЧКИ
+    if (hasDecimal  == 1) {
+        int int_length = 0;
+
+        for (int i = 0; i < length; i++) {
+            if (binary[i] == '.') {
+                int_length = i;
+                break;
+            }
+        }
+
+        int i = 0;
+        while(binary[i] != '.' ) {
+            if (binary[i] == '1') {
+                integerPart += 1 * pow(2, int_length-1-i);
+            }
+            i++;
+        }
+    }
+
+    if(hasDecimal == 0) {
+        for (int i = 0; i < length; i++) {
         if (binary[i] == '1') {
             integerPart += 1 * pow(2, length - i - 1);
         }
     }
+    }
+    printf("\nintegerpart = %d", integerPart); // это потом убрать
 
     // Обработка дробной части
     if (hasDecimal == 1) {
@@ -89,25 +113,26 @@ float dvoichn_in_des(char binary[50]) {
             }
         }
 
-        printf("Дробная часть: "); // это потом убрать
+        printf("\nДробная часть: "); // это потом убрать
         for (int i = decimalStartIndex; i < length; i++) {
             if (binary[i] == '1') {
                 decimalPart += 1 * pow(2, stepen);
-                stepen--;
                 printf("\ndecimalPart1 = %f", decimalPart); // это потом убрать
             }
+            stepen--;
         }
     }
-    printf("\ndecimalPart2 = %f", decimalPart); // это потом убрать
+    printf("\ndecimalPart = %f", decimalPart); // это потом убрать
     // Сложим целую и дробную части
     result = integerPart + decimalPart;
-    printf("result = %f", result); // это потом убрать
+    printf("\nresult = %f", result); // это потом убрать
     return result;
 }
 
-void calculations(int first, int des) {
+void calculations(float first, float des) {
     float sum, razn, proizv, delenie;
     sum = first + des;
+    printf("\nперед вычислениями: first = %f second = %f", first, des); // это потом убрать
     printf("\nsum = %f", sum); // это потом убрать
     razn = first - des;
     printf("\nrazn = %f", razn); // это потом убрать
@@ -125,7 +150,6 @@ void calculations(int first, int des) {
     printf("\nСумма чисел: ");
     des_to_dvoichn((int)sum);
     decimal_in_dvoichn((float)sum - (int)sum); // !!!!!!!!!!!!
-    printf("\nfloat sum = %f", (float)sum - (int)sum); // это потом убрать
     printf("\nРазность чисел: ");
     des_to_dvoichn((int)razn);
     decimal_in_dvoichn((float)razn - (int)razn); // !!!!!!!!!!!!!
@@ -168,10 +192,21 @@ int main() {
         }
     }
 
-    int des = dvoichn_in_des(second);
+    float des = dvoichn_in_des(second);
     calculations(first, des);
  
     return 0;
 }
-// все работает и с 0, и с отрицательным 2-м операндом, и когда 2 числа отрицательные
-// осталось добавить вычисления с дробными числами
+/* 
+16-е вещественное число?
+не учитывается минус с двоичной!!! ф-ция dvoichn in des, взять код с 5 версии лабы
+
+
+варианты для проверки:
+A101 0
+0 110110
+A4F1 11001100
+B3C9 110110.1101110
+B3C9 110110.11011101
+
+*/
