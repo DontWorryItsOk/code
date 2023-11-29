@@ -6,46 +6,88 @@
 int hexToDec(char hex[]) {
     int decimal = 0;
     int length = strlen(hex);
+    int isNegative = 0;
 
-    for (int i = 0; i < length; ++i) {
-        int digit;
+    // Проверка на отрицательное число
+    if (hex[0] == '-') {
+        isNegative = 1;
+        // Начинаем с символа после минуса
+        for (int i = 1; i < length; ++i) {
+            int digit;
 
-        if (hex[i] >= '0' && hex[i] <= '9') {
-            digit = hex[i] - '0';
-        } else if (hex[i] >= 'A' && hex[i] <= 'F') {
-            digit = hex[i] - 'A' + 10;
-        } else if (hex[i] >= 'a' && hex[i] <= 'f') {
-            digit = hex[i] - 'a' + 10;
-        } else {
-            printf("Ошибка: неверный символ в шестнадцатеричной строке\n");
-            exit(EXIT_FAILURE);
+            if (hex[i] >= '0' && hex[i] <= '9') {
+                digit = hex[i] - '0';
+            } else if (hex[i] >= 'A' && hex[i] <= 'F') {
+                digit = hex[i] - 'A' + 10;
+            } else if (hex[i] >= 'a' && hex[i] <= 'f') {
+                digit = hex[i] - 'a' + 10;
+            } else {
+                printf("Ошибка: неверный символ в шестнадцатеричной строке\n");
+                exit(EXIT_FAILURE);
+            }
+
+            decimal = decimal * 16 + digit;
         }
+    } else {
+        for (int i = 0; i < length; ++i) {
+            int digit;
 
-        decimal = decimal * 16 + digit;
+            if (hex[i] >= '0' && hex[i] <= '9') {
+                digit = hex[i] - '0';
+            } else if (hex[i] >= 'A' && hex[i] <= 'F') {
+                digit = hex[i] - 'A' + 10;
+            } else if (hex[i] >= 'a' && hex[i] <= 'f') {
+                digit = hex[i] - 'a' + 10;
+            } else {
+                printf("Ошибка: неверный символ в шестнадцатеричной строке\n");
+                exit(EXIT_FAILURE);
+            }
+
+            decimal = decimal * 16 + digit;
+        }
     }
 
-    return decimal;
+    return isNegative ? -decimal : decimal;
 }
 
 // Функция для преобразования восьмеричной строки в десятичное число
 int octToDec(char oct[]) {
     int decimal = 0;
     int length = strlen(oct);
+    int isNegative = 0;
 
-    for (int i = 0; i < length; ++i) {
-        int digit;
+    // Проверка на отрицательное число
+    if (oct[0] == '-') {
+        isNegative = 1;
+        // Начинаем с символа после минуса
+        for (int i = 1; i < length; ++i) {
+            int digit;
 
-        if (oct[i] >= '0' && oct[i] <= '7') {
-            digit = oct[i] - '0';
-        } else {
-            printf("Ошибка: неверный символ в восьмеричной строке\n");
-            exit(EXIT_FAILURE);
+            if (oct[i] >= '0' && oct[i] <= '7') {
+                digit = oct[i] - '0';
+            } else {
+                printf("Ошибка: неверный символ в восьмеричной строке\n");
+                exit(EXIT_FAILURE);
+            }
+
+            decimal = decimal * 8 + digit;
         }
+    } else {
+        for (int i = 0; i < length; ++i) {
+            int digit;
 
-        decimal = decimal * 8 + digit;
+            if (oct[i] >= '0' && oct[i] <= '7') {
+                digit = oct[i] - '0';
+            } else {
+                printf("Ошибка: неверный символ в восьмеричной строке\n");
+                exit(EXIT_FAILURE);
+            }
+
+            decimal = decimal * 8 + digit;
+        }
     }
 
-    return decimal;
+    return isNegative ? -decimal : decimal;
 }
 
 // Функция для преобразования десятичного числа в шестнадцатеричную строку
@@ -61,13 +103,18 @@ void decToHex(int dec, char hex[]) {
     }
 
     // Переводим десятичное число в шестнадцатеричное
-    while (dec > 0) {
-        remainder = dec % 16;
+    while (dec != 0) {
+        remainder = abs(dec) % 16;
 
         // Преобразуем остаток в символ
         hex[i++] = hexDigits[remainder];
 
-        dec = dec / 16;
+        dec /= 16;
+    }
+
+    // Если число было отрицательным, добавляем знак "-"
+    if (dec < 0) {
+        hex[i++] = '-';
     }
 
     // Добавляем завершающий ноль
