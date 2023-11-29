@@ -59,8 +59,8 @@ void decimal_in_dvoichn(float decimal) {
 
 float dvoichn_in_des(char binary[50]) {
     int length = strlen(binary);
-    float result = 0;
-    int integerPart = 0;
+    float result_dvoichn = 0;
+    int intPart = 0;
     float decimalPart = 0.0;
     int hasDecimal = 0;
     int stepen = -1; // степень для чисел после запятой
@@ -87,60 +87,188 @@ float dvoichn_in_des(char binary[50]) {
         int i = 0;
         while(binary[i] != '.' ) {
             if (binary[i] == '1') {
-                integerPart += 1 * pow(2, int_length-1-i);
+                intPart += 1 * pow(2, int_length-1-i);
             }
             i++;
         }
         
         if(binary[0] == '-') { // если число отрицательные
-            integerPart = -integerPart;
+            intPart = -intPart;
         }
     }
 
     if(hasDecimal == 0) {
         for (int i = 0; i < length; i++) {
         if (binary[i] == '1') {
-            integerPart += 1 * pow(2, length - i - 1);
+            intPart += 1 * pow(2, length - i - 1);
         }
     }
         if(binary[0] == '-') { // если число отрицательные
-            integerPart = -integerPart;
+            intPart = -intPart;
         }
     }
 
-    printf("\nintegerpart = %d", integerPart); // это потом убрать
+    printf("\nintPart_dvoichn = %d", intPart); // это потом убрать
 
     // Обработка дробной части
     if (hasDecimal == 1) {
-        int decimalStartIndex = 0;
+        int decimalStart = 0;
 
         for (int i = 0; i < length; i++) {
             if (binary[i] == '.') {
-                decimalStartIndex = i + 1;
+                decimalStart = i + 1;
                 break;
             }
         }
 
         printf("\nДробная часть: "); // это потом убрать
-        for (int i = decimalStartIndex; i < length; i++) {
+        for (int i = decimalStart; i < length; i++) {
             if (binary[i] == '1' && binary[0] != '-') {
                 decimalPart += 1 * pow(2, stepen);
-                printf("\ndecimalPart1 = %f", decimalPart); // это потом убрать
+                printf("\ndecimalPart_dvoichn = %f", decimalPart); // это потом убрать
             }
             if (binary[i] == '1' && binary[0] == '-') {
                 decimalPart -= 1 * pow(2, stepen);
-                printf("\ndecimalPart1 = %f", decimalPart); // это потом убрать
+                printf("\ndecimalPart1_dvoichn = %f", decimalPart); // это потом убрать
             }
             stepen--;
         }
     }
-    printf("\ndecimalPart = %f", decimalPart); // это потом убрать
+    printf("\ndecimalPart_dvoichn = %f", decimalPart); // это потом убрать
     
     // Сложение целой и дробной части
-    result = integerPart + decimalPart;
-    printf("\nresult = %f", result); // это потом убрать
-    return result;
+    result_dvoichn = intPart + decimalPart;
+    printf("\nresult_dvoichn = %f", result_dvoichn); // это потом убрать
+    return result_dvoichn;
 }
+
+
+float schestn_in_des(char schestn[50]) {
+    int length = strlen(schestn);
+    float result_schestn = 0;
+    int intPart = 0;
+    float decimalPart = 0.0;
+    int hasDecimal = 0;
+    int stepen = -1; // степень для чисел после запятой
+
+    // Проверяем, есть ли дробная часть
+    for (int i = 0; i < length; i++) {
+        if (schestn[i] == '.') {
+            hasDecimal = 1;
+            break;
+        }
+    }
+
+    // Обработка целой части
+    if (hasDecimal  == 1) {
+        int int_length = 0;
+
+        for (int i = 0; i < length; i++) {
+            if (schestn[i] == '.') {
+                int_length = i;
+                break;
+            }
+        }
+
+        int i = 0;
+        while(schestn[i] != '.' ) {
+            if (schestn[i] == '1') {
+                intPart += 1 * pow(16, int_length-1-i);
+            }
+            i++;
+        }
+        
+        if(schestn[0] == '-') { // если число отрицательные
+            intPart = -intPart;
+        }
+    }
+
+    if(hasDecimal == 0) {
+        for (int i = 0; i < length; i++) {
+        if (schestn[i] == '1') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '2') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '3') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '4') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '5') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '6') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '7') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '8') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '9') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == 'A') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '1') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '1') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '1') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+        if (schestn[i] == '1') {
+            intPart += 1 * pow(16, length - i - 1);
+        }
+
+
+    }
+        if(schestn[0] == '-') { // если число отрицательные
+            intPart = -intPart;
+        }
+    }
+
+    printf("\nintPart_schestn = %d", intPart); // это потом убрать
+
+    // Обработка дробной части
+    if (hasDecimal == 1) {
+        int decimalStart = 0;
+
+        for (int i = 0; i < length; i++) {
+            if (schestn[i] == '.') {
+                decimalStart = i + 1;
+                break;
+            }
+        }
+
+        printf("\nДробная часть: "); // это потом убрать
+        for (int i = decimalStart; i < length; i++) {
+            if (schestn[i] == '1' && schestn[0] != '-') {
+                decimalPart += 1 * pow(16, stepen);
+                printf("\ndecimalPart_schestn = %f", decimalPart); // это потом убрать
+            }
+            if (schestn[i] == '1' && schestn[0] == '-') {
+                decimalPart -= 1 * pow(16, stepen);
+                printf("\ndecimalPart1_schestn = %f", decimalPart); // это потом убрать
+            }
+            stepen--;
+        }
+    }
+    printf("\ndecimalPart_schestn = %f", decimalPart); // это потом убрать
+    
+    // Сложение целой и дробной части
+    result_schestn = intPart + decimalPart;
+    printf("\nresult_schestn = %f", result_schestn); // это потом убрать
+    return result_schestn;
+}
+
 
 void calculations(float first, float des) {
     float sum, razn, proizv, delenie;
@@ -183,16 +311,13 @@ void calculations(float first, float des) {
 }
 
 int main() {
-    int first;
+    char first[50];
     char second[50];
 
     printf("Введите 1-й операнд (число в 16-й сис-ме счисления): ");
-    scanf("%x", &first); // %x - ввод числа в 16-й сис-ме счисления
+    scanf("%s", first);
 
-    if (first > 65535) { // проверка вводимых значений
-        printf("Вы ввели неправильное/слишком большое число");
-        exit(1);
-    }
+    // добавить проверку данных
 
     printf("Введите 2-й операнд (число в 2-й сис-ме счисления): ");
     scanf("%s", second);
@@ -205,8 +330,9 @@ int main() {
         }
     }
 
-    float des = dvoichn_in_des(second);
-    calculations(first, des);
+    float dv_des = dvoichn_in_des(second);
+    float sch_des = schestn_in_des(first);
+    calculations(sch_des, dv_des);
  
     return 0;
 }
