@@ -71,7 +71,7 @@ def calculate():
             hex_result = "-" + hex_result
 
         # Выводим результат
-        label_result.config(text=f"Результат: {hex_result}")
+        label_result.config(text=f"Результат (16): {hex_result}")
 
     except ValueError:
         messagebox.showerror("Ошибка", "Неверный формат чисел")
@@ -105,7 +105,7 @@ operation_menu.grid(row=2, column=1, padx=10, pady=10)
 button_calculate = tk.Button(root, text="Вычислить", command=calculate)
 button_calculate.grid(row=3, column=0, columnspan=2, pady=10)
 
-label_result = tk.Label(root, text="Результат:")
+label_result = tk.Label(root, text="Результат (16):")
 label_result.grid(row=4, column=0, columnspan=2, pady=10)
 
 # Запускаем главный цикл
