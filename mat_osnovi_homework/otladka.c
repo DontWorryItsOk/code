@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-
+// Перевод из десятичной в двоичную
 void des_to_dvoichn(int des) {
     int arr[50];
     int i = 0;
@@ -28,6 +28,7 @@ void des_to_dvoichn(int des) {
     }
 }
 
+// Перевод дробной части десятичного числа в двоичную сис-му счисления
 void decimal_in_dvoichn(float decimal) {
     if (decimal == 0) {
         // ничего не делаем
@@ -45,27 +46,27 @@ void decimal_in_dvoichn(float decimal) {
     }
 }
 
-
-
+// Перевод двоичного числа в десятичную сис-му счисления
 float dvoichn_in_des(char binary[50]) {
-    int length = strlen(binary);
-    float result_dvoichn = 0;
-    int intPart = 0;
-    float decimalPart = 0.0;
-    int hasDecimal = 0;
-    int stepen = -1; // степень для чисел после запятой
+    int length = strlen(binary); // длина массива
+    float result_dvoichn = 0; // общий результат перевода
+    int intPart = 0; // целая часть числа
+    float decimalPart = 0.0; // дробная часть числа
+    int hasDecimal = 0; // переменная для проверки наличия дробной части
+    int stepen = -1; // степень для цифр после запятой
 
     // Проверяем, есть ли дробная часть
     for (int i = 0; i < length; i++) {
         if (binary[i] == '.') {
-            hasDecimal = 1;
+            hasDecimal = 1; 
             break;
         }
     }
 
-    // Обработка целой части
+    // Обработка целой части числа
+    // Если дробная часть есть
     if (hasDecimal  == 1) {
-        int int_length = 0;
+        int int_length = 0; // длина целой части массива
 
         for (int i = 0; i < length; i++) {
             if (binary[i] == '.') {
@@ -82,11 +83,12 @@ float dvoichn_in_des(char binary[50]) {
             i++;
         }
         
-        if(binary[0] == '-') { // если число отрицательные
+        if(binary[0] == '-') { // если число отрицательное, меняем знак
             intPart = -intPart;
         }
     }
 
+    // Если дробной части нет
     if(hasDecimal == 0) {
         for (int i = 0; i < length; i++) {
         if (binary[i] == '1') {
@@ -117,7 +119,8 @@ float dvoichn_in_des(char binary[50]) {
                 decimalPart += 1 * pow(2, stepen);
                 printf("\ndecimalPart_dvoichn = %f", decimalPart); // это потом убрать
             }
-            if (binary[i] == '1' && binary[0] == '-') {
+            // Если число отрицательное:
+            if (binary[i] == '1' && binary[0] == '-') { 
                 decimalPart -= 1 * pow(2, stepen);
                 printf("\ndecimalPart1_dvoichn = %f", decimalPart); // это потом убрать
             }
@@ -126,20 +129,20 @@ float dvoichn_in_des(char binary[50]) {
     }
     printf("\ndecimalPart_dvoichn = %f", decimalPart); // это потом убрать
     
-    // Сложение целой и дробной части
+    // Сложение целой и дробной части и получение результатов
     result_dvoichn = intPart + decimalPart;
     printf("\nresult_dvoichn = %f", result_dvoichn); // это потом убрать
     return result_dvoichn;
 }
 
-
+// Перевод шестнадцатеричного числа в десятичное
 float schestn_in_des(char schestn[50]) {
     int length = strlen(schestn);
     printf("\nlength_schestn = %d", length); // это потом убрать
-    float result_schestn = 0;
+    float result_schestn = 0;  // те же переменные, что и в ф-ции dvoichn_in_des
     int intPart = 0;
     float decimalPart = 0.0;
-    int hasDecimal = 0;
+    int hasDecimal = 0; 
     int stepen = -1; // степень для чисел после запятой
 
     // Проверяем, есть ли дробная часть
@@ -151,6 +154,7 @@ float schestn_in_des(char schestn[50]) {
     }
 
     // Обработка целой части
+    // Если есть дробная часть:
     if (hasDecimal  == 1) {
         int int_length = 0;
 
@@ -207,6 +211,7 @@ float schestn_in_des(char schestn[50]) {
         }
     }
 
+    // Если дробной части нет:
     if(hasDecimal == 0) {
         for (int i = 0; i < length; i++) {
 
@@ -248,7 +253,7 @@ float schestn_in_des(char schestn[50]) {
         printf("\nintpart_schestn_2 = %d", intPart); // это потом убрать
         }
 
-        if(schestn[0] == '-') { // если число отрицательные
+        if(schestn[0] == '-') { // если число отрицательное, меняем знак
             intPart = -intPart;
         }
     }
@@ -320,7 +325,7 @@ float schestn_in_des(char schestn[50]) {
     return result_schestn;
 }
 
-
+// Функция с вычислениями и последуюющим переводом чисел в двоичную систему счисления
 void calculations(float first, float des) {
     float sum, razn, proizv, delenie;
     sum = first + des;
@@ -368,11 +373,10 @@ int main() {
     printf("Введите 1-й операнд (число в 16-й сис-ме счисления): ");
     scanf("%s", first);
     
-    if (strspn(first, "0123456789ABCDEF.-") != strlen(first)) {
+    if (strspn(first, "0123456789ABCDEF.-") != strlen(first)) { // проверка вводимых значений
             printf("Вы ввели число не в шестнадцатеричной сис-ме счисления");
             exit(1);
     }
-    // добавить проверку данных
 
     printf("Введите 2-й операнд (число в 2-й сис-ме счисления): ");
     scanf("%s", second);
