@@ -1,39 +1,49 @@
 import tkinter as tk
 from tkinter import messagebox
 
+# Функция для преобразования шестнадцатеричного числа в десятичное
 def hex_to_dec(hex_operand):
-    hex_digits = "0123456789ABCDEF"
+    hex_nums = "0123456789ABCDEF"
     hex_operand = hex_operand.upper()
     decimal_value = 0
 
-    for digit in hex_operand:
-        decimal_value = decimal_value * 16 + hex_digits.index(digit)
+    # Проходим по каждой цифре в шестнадцатеричном числе
+    for number in hex_operand:
+        # Умножаем текущее значение на 16 и добавляем значение текущей цифры
+        decimal_value = decimal_value * 16 + hex_nums.index(number)
 
     return decimal_value
 
+# Функция для преобразования восьмеричного числа в десятичное
 def oct_to_dec(oct_operand):
-    oct_digits = "01234567"
+    oct_nums = "01234567"
     decimal_value = 0
 
-    for digit in oct_operand:
-        decimal_value = decimal_value * 8 + oct_digits.index(digit)
+    # Проходим по каждой цифре в восьмеричном числе
+    for number in oct_operand:
+        # Умножаем текущее значение на 8 и добавляем значение текущей цифры
+        decimal_value = decimal_value * 8 + oct_nums.index(number)
 
     return decimal_value
 
+# Функция для выполнения вычислений
 def calculate():
     try:
         hex_operand = entry_hex.get()
         oct_operand = entry_oct.get()
 
+        # Проверка наличия обоих операндов
         if not hex_operand or not oct_operand:
             messagebox.showerror("Ошибка", "Введите оба операнда")
             return
 
+        # Преобразование операндов в десятичные числа
         dec_operand1 = hex_to_dec(hex_operand)
         dec_operand2 = oct_to_dec(oct_operand)
 
         operation = operation_var.get()
 
+        # Выполнение операции в зависимости от выбора пользователя
         if operation == "+":
             result = dec_operand1 + dec_operand2
         elif operation == "-":
@@ -45,8 +55,22 @@ def calculate():
         else:
             messagebox.showerror("Ошибка", "Недопустимая операция")
             return
+            
+      # Ручной перевод десятичного результата в шестнадцатеричное число
+        hex_chars = "0123456789ABCDEF"
+        hex_result = ""
+        result_copy = abs(result)
 
-        hex_result = hex(result).upper()[2:]
+        while result_copy > 0:
+            remainder = result_copy % 16
+            hex_result = hex_chars[remainder] + hex_result
+            result_copy //= 16
+
+        # Добавляем знак минуса, если результат отрицателен
+        if result < 0:
+            hex_result = "-" + hex_result
+
+        # Выводим результат
         label_result.config(text=f"Результат: {hex_result}")
 
     except ValueError:
