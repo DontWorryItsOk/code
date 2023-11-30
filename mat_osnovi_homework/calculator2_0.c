@@ -1,3 +1,8 @@
+/* 
+1-й операнд: 16
+2-й операнд: 2
+результат: 2
+*/
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -159,88 +164,38 @@ float schestn_in_des(char schestn[50]) {
         }
 
         int i = 0;
-        while(schestn[i] != '.') {
-                switch(schestn[i]) {
-        case '0': intPart += 0 * pow(16, int_length - i - 1);
-        break;
-        case '1': intPart += 1 * pow(16, int_length - i - 1);
-        break;
-        case '2': intPart += 2 * pow(16, int_length - i - 1);
-        break;
-        case '3': intPart += 3 * pow(16, int_length - i - 1);
-        break;
-        case '4': intPart += 4 * pow(16, int_length - i - 1);
-        break;
-        case '5': intPart += 5 * pow(16, int_length - i - 1);
-        break;
-        case '6': intPart += 6 * pow(16, int_length - i - 1);
-        break;
-        case '7': intPart += 7 * pow(16, int_length - i - 1);
-        break;
-        case '8': intPart += 8 * pow(16, int_length - i - 1);
-        break;
-        case '9': intPart += 9 * pow(16, int_length - i - 1);
-        break;
-        case 'A': intPart += 10 * pow(16, int_length - i - 1);
-        break;
-        case 'B': intPart += 11 * pow(16, int_length - i - 1);
-        break;
-        case 'C': intPart += 12 * pow(16, int_length - i - 1);
-        break;
-        case 'D': intPart += 13 * pow(16, int_length - i - 1);
-        break;
-        case 'E': intPart += 14 * pow(16, int_length - i - 1);
-        break;
-        case 'F': intPart += 15 * pow(16, int_length - i - 1);
-        break;
-        }
-            i++;
-        }
+        while (schestn[i] != '.') {
+        char number = schestn[i];
+
+        if (number >= '0' && number <= '9') {
+            intPart += (number - '0') * pow(16, int_length - i - 1);
+        } 
         
-        if(schestn[0] == '-') { // если число отрицательные
-            intPart = -intPart;
+        else if (number >= 'A' && number <= 'F') {
+            intPart += (number - 'A' + 10) * pow(16, int_length - i - 1);
         }
+        i++;
     }
+
+    if (schestn[0] == '-') {
+        intPart = -intPart;
+    }
+}
 
     // Если дробной части нет:
     if(hasDecimal == 0) {
         for (int i = 0; i < length; i++) {
 
-        switch(schestn[i]) {
-        case '0': intPart += 0 * pow(16, length - i - 1);
-        break;
-        case '1': intPart += 1 * pow(16, length - i - 1);
-        break;
-        case '2': intPart += 2 * pow(16, length - i - 1);
-        break;
-        case '3': intPart += 3 * pow(16, length - i - 1);
-        break;
-        case '4': intPart += 4 * pow(16, length - i - 1);
-        break;
-        case '5': intPart += 5 * pow(16, length - i - 1);
-        break;
-        case '6': intPart += 6 * pow(16, length - i - 1);
-        break;
-        case '7': intPart += 7 * pow(16, length - i - 1);
-        break;
-        case '8': intPart += 8 * pow(16, length - i - 1);
-        break;
-        case '9': intPart += 9 * pow(16, length - i - 1);
-        break;
-        case 'A': intPart += 10 * pow(16, length - i - 1);
-        break;
-        case 'B': intPart += 11 * pow(16, length - i - 1);
-        break;
-        case 'C': intPart += 12 * pow(16, length - i - 1);
-        break;
-        case 'D': intPart += 13 * pow(16, length - i - 1);
-        break;
-        case 'E': intPart += 14 * pow(16, length - i - 1);
-        break;
-        case 'F': intPart += 15 * pow(16, length - i - 1);
-        break;
+        char number = schestn[i];
+
+        if (number >= '0' && number <= '9') {
+            intPart += (number - '0') * pow(16, length - i - 1);
+        } 
+        
+        else if (number >= 'A' && number <= 'F') {
+            intPart += (number - 'A' + 10) * pow(16, length - i - 1);
         }
-        }
+    }
 
         if(schestn[0] == '-') { // если число отрицательное, меняем знак
             intPart = -intPart;
@@ -260,53 +215,28 @@ float schestn_in_des(char schestn[50]) {
         }
 
         for (int i = decimalStart; i < length; i++) {
-                switch(schestn[i]) {
-        case '0': decimalPart += 0 * pow(16, stepen);
-        break;
-        case '1': decimalPart += 1 * pow(16, stepen);
-        break;
-        case '2': decimalPart += 2 * pow(16, stepen);
-        break;
-        case '3': decimalPart += 3 * pow(16, stepen);
-        break;
-        case '4': decimalPart += 4 * pow(16, stepen);
-        break;
-        case '5': decimalPart += 5 * pow(16, stepen);
-        break;
-        case '6': decimalPart += 6 * pow(16, stepen);
-        break;
-        case '7': decimalPart += 7 * pow(16, stepen);
-        break;
-        case '8': decimalPart += 8 * pow(16, stepen);
-        break;
-        case '9': decimalPart += 9 * pow(16, stepen);
-        break;
-        case 'A': decimalPart += 10 * pow(16, stepen);
-        break;
-        case 'B': decimalPart += 11 * pow(16, stepen);
-        break;
-        case 'C': decimalPart += 12 * pow(16, stepen);
-        break;
-        case 'D': decimalPart += 13 * pow(16, stepen);
-        break;
-        case 'E': decimalPart += 14 * pow(16, stepen);
-        break;
-        case 'F': decimalPart += 15 * pow(16, stepen);
-        break;
+        char number = schestn[i];
+
+        if (number >= '0' && number <= '9') {
+            decimalPart += (number - '0') * pow(16, stepen);
+        } 
+        
+        else if (number >= 'A' && number <= 'F') {
+            decimalPart += (number - 'A' + 10) * pow(16, stepen);
         }
-        }
-                stepen--;
-            }
+        stepen--;
+    }
 
             if (schestn[0] == '-') {
                 decimalPart = -decimalPart;
             }
-            
+    }
     
     // Сложение целой и дробной части
     result_schestn = intPart + decimalPart;
     return result_schestn;
 }
+
 
 // Функция с вычислениями и последующим переводом чисел в двоичную систему счисления
 void calculations(float first, float des) {
@@ -378,8 +308,8 @@ int main() {
 A101 0 /
 0 110110 /
 A4F1 11001100 /
-B3C9 110110.1101110 /
-B3C9.424 110110.11011101 /
+B3C0 110110.1101110 /
+B3C0.424 110110.1101110 /
 -B36 11011 /
 -B36.4 11011.11 /
 -B36.4 -11011.11 /
