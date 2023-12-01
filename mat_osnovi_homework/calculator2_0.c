@@ -8,7 +8,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-// Перевод из десятичной в двоичную
+// Перевод целой части из десятичной в двоичную
 void des_to_dvoichn(int des) {
     int arr[50];
     int i = 0;
@@ -245,7 +245,7 @@ void calculations(float first, float des) {
     razn = first - des;
     proizv = first * des;
 
-    if (des == 0)
+    if (des == 0) // немного лишняя часть кода, можно если что убрать
         delenie = 0;
     
     else {
@@ -261,14 +261,15 @@ void calculations(float first, float des) {
     printf("\nПроизведение чисел: ");
     des_to_dvoichn((int)proizv);
     decimal_in_dvoichn((float)proizv - (int)proizv);
-
+    
+    // проверка вводимых значений:
     if (des != 0) {
         printf("\nЧастное чисел: "); 
         des_to_dvoichn((int)delenie);
         decimal_in_dvoichn(delenie - (int)delenie); 
     } 
 
-    else { // проверка вводимых значений
+    else {
         printf("\nЧастное чисел: Ошибка! На 0 делить нельзя!");
     }
 }
