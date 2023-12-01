@@ -11,7 +11,7 @@ def hex_to_dec(hex_operand):
     for number in hex_operand:
         # Умножаем текущее значение на 16 и добавляем значение текущей цифры
         decimal_value = decimal_value * 16 + hex_nums.index(number)
-
+                                    #hex_nums.index(number) находит индекс шестнадцатеричной цифры number в строке hex_nums
     return decimal_value
 
 # Функция для преобразования восьмеричного числа в десятичное
@@ -51,12 +51,14 @@ def calculate():
         elif operation == "*":
             result = dec_operand1 * dec_operand2
         elif operation == "/":
-            result = dec_operand1 / dec_operand2
+            # Используем divmod для получения частного и остатка от деления
+            quotient, _ = divmod(dec_operand1, dec_operand2) #возвращает кортеж из двух значений: частное и остаток от деления
+            result = quotient
         else:
             messagebox.showerror("Ошибка", "Недопустимая операция")
             return
-            
-      # Ручной перевод десятичного результата в шестнадцатеричное число
+
+        # Ручной перевод десятичного результата в шестнадцатеричное число
         hex_chars = "0123456789ABCDEF"
         hex_result = ""
         result_copy = abs(result)
@@ -71,14 +73,15 @@ def calculate():
             hex_result = "-" + hex_result
 
         # Выводим результат
-        label_result.config(text=f"Результат (16): {hex_result}")
+        label_result.config(text=f"Результат: {hex_result}")
 
     except ValueError:
         messagebox.showerror("Ошибка", "Неверный формат чисел")
 
+
 # Создаем главное окно
 root = tk.Tk()
-root.title("Calculator")
+root.title("Калькулятор")
 
 # Создаем элементы управления
 label_hex = tk.Label(root, text="Первый операнд (16):")
