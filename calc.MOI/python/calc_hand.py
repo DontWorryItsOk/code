@@ -51,6 +51,9 @@ def calculate():
         elif operation == "*":
             result = dec_operand1 * dec_operand2
         elif operation == "/":
+            if dec_operand2 == 0:
+                messagebox.showerror("Ошибка", "Деление на ноль недопустимо")
+                return
             # Используем divmod для получения частного и остатка от деления
             quotient, _ = divmod(dec_operand1, dec_operand2) #возвращает кортеж из двух значений: частное и остаток от деления
             result = quotient
