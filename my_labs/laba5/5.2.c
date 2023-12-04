@@ -13,16 +13,18 @@ struct Price *head = NULL;
 struct Price *tail = NULL;
 typedef struct Price PRICE;
 
+
 void add_to_start(PRICE one) {
-    PRICE *tmp;
-    tmp = (PRICE *)malloc(sizeof(PRICE));
-    tmp ->Tovar = one.Tovar;
-    tmp ->Mag = one.Mag;
+    PRICE *tmp = (PRICE *)malloc(sizeof(PRICE));
+    strcpy(tmp -> Tovar, one.Tovar);
+    strcpy(tmp ->Mag, one.Mag);
     tmp ->Stoim = one.Stoim;
+    tmp->next = head;
+    head = tmp;
     
-    if(!tail) head = tmp; //??
-    else tail ->next = tmp;
-    tail = tmp;
+    if (tail == NULL) {
+        tail = tmp;
+    }
 }
 
 
@@ -36,13 +38,13 @@ void add_to_end(PRICE one) {
 }
 
 
-
 int main() {
+    PRICE newtovar;
     printf("Введите название товара: ");
-    scanf("%d", tmp.Tovar);
-    printf("Введите название магазина, в котором продается товар: ");
-    scanf("%d", tmp.Mag);
+    scanf("%s", newtovar.Tovar);
+    printf("Введите название магазина: ");
+    scanf("%s", newtovar.Mag);
     printf("Введите стоимость товара в руб.");
-    scanf("%d", tmp.Stoim);
+    scanf("%d", &newtovar.Stoim);
 
 }
