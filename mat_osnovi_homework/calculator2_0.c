@@ -245,13 +245,6 @@ void calculations(float first, float des) {
     razn = first - des;
     proizv = first * des;
 
-    if (des == 0) // немного лишняя часть кода, можно если что убрать
-        delenie = 0;
-    
-    else {
-        delenie = (float)first / des;
-    }
-
     printf("\nСумма чисел: ");
     des_to_dvoichn((int)sum);
     decimal_in_dvoichn((float)sum - (int)sum); 
