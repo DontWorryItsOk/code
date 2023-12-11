@@ -9,8 +9,8 @@ struct Price {
     struct Price *next; // указатель на следующий элемент списка
 };
 
-struct Price *head = NULL;
-struct Price *tail = NULL;
+struct Price *head = NULL; // указатель на вершину
+struct Price *tail = NULL; // указатель на конец
 typedef struct Price PRICE;
 
 
@@ -18,7 +18,7 @@ void add_to_start(PRICE one) {
     PRICE *tmp = (PRICE *)malloc(sizeof(PRICE));
     strcpy(tmp -> Tovar, one.Tovar);
     strcpy(tmp ->Mag, one.Mag);
-    tmp ->Stoim = one.Stoim;
+    tmp ->Stoim = one.Stoim; // tmp - переменная для.............
     tmp->next = head;
     head = tmp;
     
@@ -64,21 +64,48 @@ void add_anywhere(PRICE one, PRICE *after) {
 }
 
 
-void delete_start() {
+void delete_from_start() {
 
 }
 
 
-void
+void delete__from_end() {
+
+}
+
+
+void delete_anywhere() {
+
+}
+
+
+void show() {
+
+}
+
+void free_memory() {
+
+}
 
 
 int main() {
-    PRICE newtovar;
-    printf("Введите название товара: ");
-    scanf("%s", newtovar.Tovar);
-    printf("Введите название магазина: ");
-    scanf("%s", newtovar.Mag);
-    printf("Введите стоимость товара в руб.");
-    scanf("%d", &newtovar.Stoim);
+    int value;
+    do {
+        printf("Введите элемент, 0 - конец\n");
+        scanf("%d", &value);
+        if (!value) break;
+        
+        PRICE newtovar;
+        printf("Введите название товара: ");
+        scanf("%s", newtovar.Tovar);
+        printf("Введите название магазина: ");
+        scanf("%s", newtovar.Mag);
+        printf("Введите стоимость товара в руб.");
+        scanf("%d", &newtovar.Stoim);
+        } while (1);
 
+    printf("\nСписок товаров:\n");
+    show();
+
+    return 0;
 }
