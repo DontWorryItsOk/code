@@ -2,13 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_STRING 100
-
 // Определение структуры Worker
 struct Worker {
-    char Name[MAX_STRING];  // Фамилия и инициалы работника
-    char Pos[MAX_STRING];   // Название занимаемой должности
-    int Year;               // Год поступления на работу
+    char Name[100];  // Фамилия и инициалы работника
+    char Pos[100];   // Название занимаемой должности
+    int Year;        // Год поступления на работу
 };
 
 // Определение структуры Node для связанного списка
@@ -129,7 +127,7 @@ struct Node* removeFromIndex(struct Node* head, int index) {
     struct Node* current = head;
     struct Node* prev = NULL;
 
-    for (int i = 0; index > 1 && i < index - 1 && current != NULL; ++i) {
+    for (int i = 0; i < index - 1 && current != NULL; ++i) {
         prev = current;
         current = current->next;
     }
@@ -183,32 +181,34 @@ int main() {
         printf("8. Выход\n");
 
         printf("Выберите действие (1-8): ");
-        scanf("%d", &choice);
+
+        // Проверка вводимого значения: 
+        if (scanf("%d", &choice) != 1) {
+            printf("Ошибка ввода. Пожалуйста, введите целое число.\n");
+            while (getchar() != '\n'); // Очистка входного буфера
+            continue;
+        }
 
         switch (choice) {
             case 1:
+                printf("Введите данные работника (Фамилия_И_О, Должность, Год поступления на работу): ");
+                scanf("%s %s %d", worker.Name, worker.Pos, &worker.Year);
+                head = addToBeginning(head, worker);
+                break;
+
             case 2:
+                printf("Введите данные работника (Фамилия_И_О, Должность, Год поступления на работу): ");
+                scanf("%s %s %d", worker.Name, worker.Pos, &worker.Year);
+                head = addToEnd(head, worker);
+                break;
+
             case 3:
-                printf("Введите данные работника (Фамилия И.О., Должность, Год поступления на работу): ");
-                getchar();  // Очистка буфера
-                fgets(worker.Name, sizeof(worker.Name), stdin);
-                worker.Name[strcspn(worker.Name, "\n")] = '\0';  // Удаление символа новой строки
-
-                fgets(worker.Pos, sizeof(worker.Pos), stdin);
-                worker.Pos[strcspn(worker.Pos, "\n")] = '\0';  // Удаление символа новой строки
-
-                scanf("%d", &worker.Year);
-
-                if (choice == 1)
-                    head = addToBeginning(head, worker);
-                else if (choice == 2)
-                    head = addToEnd(head, worker);
-                else {
-                    int index;
-                    printf("Введите индекс для вставки: ");
-                    scanf("%d", &index);
-                    head = insertAtIndex(head, worker, index);
-                }
+                printf("Введите данные работника (Фамилия_И_О, Должность, Год поступления на работу): ");
+                scanf("%s %s %d", worker.Name, worker.Pos, &worker.Year);
+                int index;
+                printf("Введите индекс для вставки: ");
+                scanf("%d", &index);
+                head = insertAtIndex(head, worker, index);
                 break;
 
             case 4:
@@ -237,9 +237,13 @@ int main() {
 
             default:
                 printf("Неверный выбор. Попробуйте снова.\n");
+                break;
         }
 
     } while (choice != 8);
 
     return 0;
 }
+
+// решил проблему с бесконечным выполнением программы в случае введения буквы
+// добавить возможность вводить ФИО через пробелы?
