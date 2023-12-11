@@ -25,24 +25,6 @@ void addStart(struct Price data) {
     }
 }
 
-void addAnywhere(struct Price data, struct Price *afterNode) {
-    if (afterNode == NULL) {
-        printf("Ошибка: Указанный узел для вставки отсутствует.\n");
-        return;
-    }
-
-    struct Price *newNode = (struct Price *)malloc(sizeof(struct Price));
-    strcpy(newNode->Tovar, data.Tovar);
-    strcpy(newNode->Mag, data.Mag);
-    newNode->Stoim = data.Stoim;
-    newNode->next = afterNode->next;
-    afterNode->next = newNode;
-    
-    // Если afterNode - последний элемент, обновим tail
-    if (afterNode == tail) {
-        tail = newNode;
-    }
-}
 
 void addEnd(struct Price data) {
     struct Price *newNode = (struct Price *)malloc(sizeof(struct Price));
@@ -56,6 +38,26 @@ void addEnd(struct Price data) {
         tail = newNode;
     } else {
         tail->next = newNode;
+        tail = newNode;
+    }
+}
+
+
+void addAnywhere(struct Price data, struct Price *afterNode) {
+    if (afterNode == NULL) {
+        printf("Ошибка: Указанный узел для вставки отсутствует.\n");
+        return;
+    }
+
+    struct Price *newNode = (struct Price *)malloc(sizeof(struct Price));
+    strcpy(newNode->Tovar, data.Tovar);
+    strcpy(newNode->Mag, data.Mag);
+    newNode->Stoim = data.Stoim;
+    newNode->next = afterNode->next;
+    afterNode->next = newNode;
+
+    // Если afterNode - последний элемент, обновим tail
+    if (afterNode == tail) {
         tail = newNode;
     }
 }
@@ -121,30 +123,34 @@ struct Price* getByNumber(int number) {
     return current;
 }
 
-int main() {
+// Функция для вставки элемента в указанную позицию
+void push(int position) {
+    struct Price *afterNode = getByNumber(position - 1);
+
     struct Price newProduct;
+    printf("Введите название товара: ");
+    scanf("%s", newProduct.Tovar);
+
+    printf("Введите название магазина: ");
+    scanf("%s", newProduct.Mag);
+
+    printf("Введите стоимость товара: ");
+    scanf("%f", &newProduct.Stoim);
+
+    addAnywhere(newProduct, afterNode);
+}
+
+int main() {
     int value;
     do {
-        printf("Введите название товара: ");
-        scanf("%s", newProduct.Tovar);
-
-        printf("Введите название магазина: ");
-        scanf("%s", newProduct.Mag);
-
-        printf("Введите стоимость товара: ");
-        scanf("%f", &newProduct.Stoim);
-
-        addEnd(newProduct);
-
         printf("Введите элемент, 0 - конец\n");
         scanf("%d", &value);
-        if(!value) break;
-        push(value); // тут не push
-    }
-    while(1);
+        if (!value) break;
+        push(value);
+    } while (1);
 
-        printf("\nСписок товаров:\n");
-        printList();
+    printf("\nСписок товаров:\n");
+    printList();
 
     return 0;
 }
