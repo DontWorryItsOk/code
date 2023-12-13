@@ -187,7 +187,7 @@ void search_tovar(NODE *head, const char *name) {
 
 int main() {
     NODE *head = NULL;
-    int choice;
+    int answer;
     PRICE newtowar;
 
     do {
@@ -205,13 +205,13 @@ int main() {
         printf("Выберите действие (1-9): ");
 
         // Проверка вводимого значения: 
-        if (scanf("%d", &choice) != 1) {
+        if (scanf("%d", &answer) != 1) {
             printf("Ошибка ввода. Пожалуйста, введите целое число.\n");
             while (getchar() != '\n'); // Очистка входного буфера
             continue;
         }
 
-        switch (choice) {
+        switch (answer) {
             case 1:
                 printf("Введите данные товара (Название, Магазин и Стоимость): ");
                 scanf("%s %s %d", newtowar.Tovar, newtowar.Mag, &newtowar.Stoim);
@@ -269,7 +269,7 @@ int main() {
                 break;
         }
 
-    } while (choice != 9);
+    } while (answer != 9);
 
     return 0;
 }
