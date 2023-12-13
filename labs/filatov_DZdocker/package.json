@@ -1,0 +1,11 @@
+{
+    "name": "simple-html-app",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "npx http-server -p 80"
+    },
+    "dependencies": {
+        "http-server": "0.12.3"
+    }
+}
