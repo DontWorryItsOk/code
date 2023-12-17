@@ -82,12 +82,12 @@ NODE *add_anywhere(NODE *head, PRICE newtowar, int index) {
   
   NODE *current = head; // создаем указатель current для движения по списку сверху вниз, присваиваем ему head
 
-  for(int i = 2; i < index - 2; i++) { // элемент вставляется точно по индексу
-    current = current->next;
+  for(int i = 0; i < index - 2; ++i) { // элемент вставляется точно по индексу
+    current = current->next; // обновление текущего элемента списка (если остановились на 2, укажет на 3)
   }  
 
-  tmp->next = current->next;  
-  current->next = tmp;
+  tmp->next = current->next; // устанавливаем указатель next узла tmp на элемент, который изначально находился на позиции index.
+  current->next = tmp; // устанавливаем указатель next предыдущего узла current на новый узел tmp
   
   return head;
 }
@@ -96,7 +96,8 @@ NODE *add_anywhere(NODE *head, PRICE newtowar, int index) {
 // Удаление с начала списка
 NODE *delete_from_start(NODE *head) {
   
-  if(!head) {
+  if(head == NULL) {
+    printf("Список пуст.\n");
     return NULL;
   }
   
@@ -110,6 +111,7 @@ NODE *delete_from_start(NODE *head) {
 
 // Удаление с конца списка
 NODE *delete_from_end(NODE *head) {
+    
     if (head == NULL) {
         printf("Список пуст.\n");
         return NULL;
@@ -136,7 +138,7 @@ NODE *delete_from_end(NODE *head) {
     } 
     
     else {
-        return NULL;  // В случае удаления единственного элемента в списке
+        return NULL;  // в случае удаления единственного элемента в списке
     }
 }
 
@@ -149,7 +151,7 @@ NODE *delete_anywhere(NODE *head, int index) {
     }
 
     if (index == 1) {
-        struct Node *new_head = head->next;
+        NODE *new_head = head->next;
         free(head);
         return new_head;
     }
@@ -177,7 +179,7 @@ NODE *delete_anywhere(NODE *head, int index) {
 void show(NODE *head) {
     printf("Список:\n");
     NODE *current = head;
-    int index = 1; // FFF
+    int index = 1; // элементы в списке начинаем с единицы
 
     while (current != NULL) {
         printf("%d. %s, %s, %d\n", index, current->info.Tovar, current->info.Mag, current->info.Stoim);
@@ -191,8 +193,8 @@ void show(NODE *head) {
 void free_memory(NODE *head) {
   NODE *current = head;
   
-    while(current) {
-        NODE* temp = current;
+    while(current != NULL) {
+        NODE *temp = current;
         current = current->next;
         free(temp); 
     }
@@ -218,7 +220,7 @@ void search_tovar(NODE *head, const char *name) {
 
 int main() {
   NODE *head = NULL;
-  int answer;
+  int answer; // переменная для ответа пользователя
   PRICE newtowar;
 
   do {
@@ -315,7 +317,6 @@ int main() {
 // глянуть нужно ли интовые функции заменить на воид
 // по индексу товар добавляется после выбранного(если 1, то после первого), 
 // при этом если удалить 2, то удалится 2(при вводе 0 ошибка), 
-
 
 
 // в версии me_help5 внёс изменения в индексацию add_anywhere и check_index

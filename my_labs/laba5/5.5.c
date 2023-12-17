@@ -83,11 +83,11 @@ NODE *add_anywhere(NODE *head, PRICE newtowar, int index) {
   NODE *current = head; // создаем указатель current для движения по списку сверху вниз, присваиваем ему head
 
   for(int i = 0; i < index - 2; ++i) { // элемент вставляется точно по индексу
-    current = current->next;
+    current = current->next; // обновление текущего элемента списка (если остановились на 2, укажет на 3)
   }  
 
-  tmp->next = current->next;  
-  current->next = tmp;
+  tmp->next = current->next; // устанавливаем указатель next узла tmp на элемент, который изначально находился на позиции index.
+  current->next = tmp; // устанавливаем указатель next предыдущего узла current на новый узел tmp
   
   return head;
 }
@@ -177,7 +177,7 @@ NODE *delete_anywhere(NODE *head, int index) {
 void show(NODE *head) {
     printf("Список:\n");
     NODE *current = head;
-    int index = 1; // FFF
+    int index = 1; // элементы в списке начинаем с единицы
 
     while (current != NULL) {
         printf("%d. %s, %s, %d\n", index, current->info.Tovar, current->info.Mag, current->info.Stoim);
@@ -218,7 +218,7 @@ void search_tovar(NODE *head, const char *name) {
 
 int main() {
   NODE *head = NULL;
-  int answer;
+  int answer; // переменная для ответа пользователя
   PRICE newtowar;
 
   do {
