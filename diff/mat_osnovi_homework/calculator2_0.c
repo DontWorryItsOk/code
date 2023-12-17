@@ -244,6 +244,7 @@ void calculations(float first, float des) {
     sum = first + des;
     razn = first - des;
     proizv = first * des;
+    delenie = first / des;
 
     printf("\nСумма чисел: ");
     des_to_dvoichn((int)sum);

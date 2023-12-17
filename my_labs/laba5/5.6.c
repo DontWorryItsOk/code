@@ -20,7 +20,7 @@ typedef struct Node NODE;
 
 // Проверка введенного индекса (используется в add_anywhere)
 int check_index(int index, NODE *head) {
-  if (index < 0)
+  if (index <= 0)
   return 0;
   
   NODE* current = head;
@@ -37,10 +37,10 @@ int check_index(int index, NODE *head) {
 
 // Добавление в начало списка
 NODE *add_to_start(NODE *head, PRICE newtowar) {
-  NODE *tmp = (NODE*) malloc(sizeof(NODE));
-  tmp->info = newtowar;
-  tmp->next = head;
-  return tmp;
+  NODE *tmp = (NODE*) malloc(sizeof(NODE)); // адрес выделенного блока памяти сохраняется в указателе tmp
+  tmp->info = newtowar; //  копируем информацию о товаре newtowar в поле info нового узла tmp.
+  tmp->next = head; // указываем на следующий элемент списка, т.к. до выполнения функции head был на первом элементе
+  return tmp; // возвращаем значение, чтобы после выполнения функции указать на начало списка - head = add_to_start (т.е. head = tmp)
 }
 
 // Добавление в конец списка  
@@ -50,39 +50,39 @@ NODE *add_to_end(NODE *head, PRICE newtowar) {
     tmp->info = newtowar;
     tmp->next = NULL;
 
-    if(!head) {
+    if(!head) { // проверка, является ли список пустым (если *head == NULL)
         return tmp;
     }
     
-    NODE *current = head;
+    NODE *current = head; // создаем указатель current для движения по списку сверху вниз, присваиваем ему head (это копия указателя, изменение current не влияет на head)
 
-    while(current->next != NULL) {
-        current = current->next;
+    while(current->next != NULL) { // до тех пор, пока следующий элемент списка будет существовать
+        current = current->next; // переходим на следующий элемент
     }
 
-    current->next = tmp;  
-    return head;
+    current->next = tmp; // устанавливаем указатель next последнего узла (current) так, чтобы он указывал на наш новый узел (tmp)
+    return head; // возвращаем head для последующего обновления, без обновления новый элемент списка не появляется
 }
 
 // Добавление в любое место списка
 NODE *add_anywhere(NODE *head, PRICE newtowar, int index) {
 
-  if(!check_index(index, head)) { // проверка  индекса (чтобы нельзя было добавить на несуществующую позицию)
+  if(!check_index(index, head)) { // проверка  индекса (чтобы нельзя было добавить на несуществующую позицию), т.е. функция вернула 0 - индекс неправильный
     printf("Введен неправильный индекс!");
-    return head;  
+    return head;
   }
   
   NODE *tmp = (NODE*) malloc(sizeof(NODE));
   tmp->info = newtowar;
   
-  if (index == 0) {
-    tmp->next = head; 
-    return tmp;
+  if (index == 1) { 
+    tmp->next = head; // следующий элемент становится head
+    return tmp; // возвращаем tmp для обновления head
   }
   
-  NODE *current = head;
+  NODE *current = head; // создаем указатель current для движения по списку сверху вниз, присваиваем ему head
 
-  for(int i = 0; i < index - 1; i++) {
+  for(int i = 2; i < index - 2; i++) { // элемент вставляется точно по индексу
     current = current->next;
   }  
 
@@ -178,6 +178,7 @@ void show(NODE *head) {
     printf("Список:\n");
     NODE *current = head;
     int index = 1; // FFF
+
     while (current != NULL) {
         printf("%d. %s, %s, %d\n", index, current->info.Tovar, current->info.Mag, current->info.Stoim);
         current = current->next;
@@ -190,11 +191,11 @@ void show(NODE *head) {
 void free_memory(NODE *head) {
   NODE *current = head;
   
-  while(current) {
-    NODE* temp = current;
-    current = current->next;
-    free(temp); 
-  }
+    while(current) {
+        NODE* temp = current;
+        current = current->next;
+        free(temp); 
+    }
 }
 
 
@@ -236,10 +237,10 @@ int main() {
 
       // Проверка вводимого значения(в случае введения напр. буквы): 
       if (scanf("%d", &answer) != 1) {
-        printf("Ошибка ввода. Пожалуйста, введите целое число.\n");
-        while (getchar() != '\n'); // Очистка входного буфера
-        continue;
-      }
+         printf("Ошибка ввода. Пожалуйста, введите целое число.\n");
+         while (getchar() != '\n'); // Очистка входного буфера
+         continue;
+        }
 
       switch (answer) {
         case 1:
@@ -297,18 +298,24 @@ int main() {
         default:
           printf("Неверный выбор. Попробуйте снова.\n");
           break;
-      }
 
-  } while (answer != 9);
+        }
 
-  return 0;
+    } while (answer != 9);
+
+ return 0;
 }
 
 // решил проблему с бесконечным выполнением программы в случае введения буквы
 // проблема с освобождением памяти решена
+// решил проблему с индексом в add_anywhere
 
 // добавить возможность вводить ФИО через пробелы?
 // при вводе d d d выводит ошибку ввода, но в список добавляет (вместо суммы пишет ASCII код буквы)
 // глянуть нужно ли интовые функции заменить на воид
 // по индексу товар добавляется после выбранного(если 1, то после первого), 
 // при этом если удалить 2, то удалится 2(при вводе 0 ошибка), 
+
+
+
+// в версии me_help5 внёс изменения в индексацию add_anywhere и check_index
