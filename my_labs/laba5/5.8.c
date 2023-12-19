@@ -123,17 +123,17 @@ NODE *delete_from_end(NODE *head) {
     }
 
     NODE *current = head; // создаем указатель current для движения по списку сверху вниз, присваиваем ему head
-    NODE *prev = NULL; //  создаем пустой указатель
+    NODE *pred = NULL; //  создаем пустой указатель
 
     while (current->next != NULL) { // пока следующий элемент после current не перестанет существовать
-        prev = current;
+        pred = current;
         current = current->next; // двигаемся вниз по списку
     }
 
     free(current); // освобождаем память выделенную для последнего элемента списка
 
-    if (prev != NULL) { // если элемент перед удаляемым current существует
-        prev->next = NULL; // next указывает на пустое место списка
+    if (pred != NULL) { // если элемент перед удаляемым current существует
+        pred->next = NULL; // next указывает на пустое место списка
         return head;
     } 
     
@@ -157,10 +157,10 @@ NODE *delete_anywhere(NODE *head, int index) {
     }
 
     NODE *current = head;
-    NODE *prev = NULL;
+    NODE *pred = NULL; // для отслеживания предыдущего элемента списка
 
     for (int i = 0; i < index - 1 && current != NULL; ++i) { // цикл для движения по списку, пока не дойдем до предыдущего элемента за тем, который надо удалить
-      prev = current;
+      pred = current;
       current = current->next;
     }
 
@@ -169,7 +169,7 @@ NODE *delete_anywhere(NODE *head, int index) {
       return head;
     }
 
-    prev->next = current->next; // обновление prev
+    pred->next = current->next; // обновление pred
     free(current); // освобождение памяти под элемент
     return head;
 }

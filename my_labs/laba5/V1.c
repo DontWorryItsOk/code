@@ -1,3 +1,13 @@
+/* Описать структуру с именем Price, содержащую следующие поля:
+• Tovar – название товара;
+• Mag – название магазина, в котором продается товар;
+• Stoim – стоимость товара в руб.
+
+Индивидуальное задание:
+• вывод на экран информации о товаре, название которого введено с
+клавиатуры; */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,7 +16,6 @@ struct Price {
   char Tovar[50];
   char Mag[50];
   int Stoim;
-  struct Price *next;
 };
 
 typedef struct Price PRICE;
@@ -27,7 +36,7 @@ int check_index(int index, NODE *head) {
   int i = 1;
   
   while (current != NULL) {
-    if (i == index) return 1; 
+    if (i == index) return 1; // если найдется элемент соответствующий индексу
     current = current->next;
     i++;
   }
@@ -123,17 +132,17 @@ NODE *delete_from_end(NODE *head) {
     }
 
     NODE *current = head; // создаем указатель current для движения по списку сверху вниз, присваиваем ему head
-    NODE *prev = NULL; //  создаем пустой указатель
+    NODE *pred = NULL; //  создаем пустой указатель
 
     while (current->next != NULL) { // пока следующий элемент после current не перестанет существовать
-        prev = current;
+        pred = current;
         current = current->next; // двигаемся вниз по списку
     }
 
     free(current); // освобождаем память выделенную для последнего элемента списка
 
-    if (prev != NULL) { // если элемент перед удаляемым current существует
-        prev->next = NULL; // next указывает на пустое место списка
+    if (pred != NULL) { // если элемент перед удаляемым current существует
+        pred->next = NULL; // next указывает на пустое место списка
         return head;
     } 
     
@@ -157,10 +166,10 @@ NODE *delete_anywhere(NODE *head, int index) {
     }
 
     NODE *current = head;
-    NODE *prev = NULL;
+    NODE *pred = NULL; // для отслеживания предыдущего элемента списка
 
     for (int i = 0; i < index - 1 && current != NULL; ++i) { // цикл для движения по списку, пока не дойдем до предыдущего элемента за тем, который надо удалить
-      prev = current;
+      pred = current;
       current = current->next;
     }
 
@@ -169,7 +178,7 @@ NODE *delete_anywhere(NODE *head, int index) {
       return head;
     }
 
-    prev->next = current->next; // обновление prev
+    pred->next = current->next; // обновление pred
     free(current); // освобождение памяти под элемент
     return head;
 }
@@ -181,7 +190,7 @@ void show(NODE *head) {
     NODE *current = head;
     int index = 1; // элементы в списке начинаем с единицы
 
-    while (current != NULL) { // пока не дойдем до пустого места
+    while (current != NULL) {
         printf("%d. %s, %s, %d\n", index, current->info.Tovar, current->info.Mag, current->info.Stoim);
         current = current->next;
         index++;
@@ -307,15 +316,3 @@ int main() {
 
  return 0;
 }
-
-// решил проблему с бесконечным выполнением программы в случае введения буквы
-// проблема с освобождением памяти решена
-// решил проблему с индексом в add_anywhere
-
-// добавить возможность вводить название товара через пробелы?
-// при вводе d d d выводит ошибку ввода, но в список добавляет (вместо стоимости пишет не то) 
-// при этом если удалить 2, то удалится 2 (при вводе 0 ошибка), 
-// при добавлении в любое место списка сделать возможность добавить элемент в конец списка(новый элемент)
-
-
-// в версии me_help5 внёс изменения в индексацию add_anywhere и check_index
