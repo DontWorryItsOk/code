@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_STRING_LENGTH 100
+
 // Определение структуры Worker
 struct Worker {
-    char Name[100];  // Фамилия и инициалы работника
-    char Pos[100];   // Название занимаемой должности
-    int Year;        // Год поступления на работу
+    char* Name;  // Фамилия и инициалы работника
+    char* Pos;   // Название занимаемой должности
+    int Year;    // Год поступления на работу
 };
 
 // Определение структуры Node для связанного списка
@@ -14,6 +16,28 @@ struct Node {
     struct Worker data;
     struct Node* next;
 };
+
+// Функция для создания нового работника
+struct Worker createWorker() {
+    struct Worker worker;
+    worker.Name = (char*)malloc(MAX_STRING_LENGTH * sizeof(char));
+    worker.Pos = (char*)malloc(MAX_STRING_LENGTH * sizeof(char));
+    return worker;
+}
+
+// Функция для освобождения памяти, выделенной для работника
+void freeWorker(struct Worker* worker) {
+    free(worker->Name);
+    free(worker->Pos);
+}
+
+// Функция для удаления символа новой строки из строки
+void removeNewline(char* str) {
+    size_t length = strlen(str);
+    if (length > 0 && str[length - 1] == '\n') {
+        str[length - 1] = '\0';  // Заменяем символ новой строки на нулевой символ
+    }
+}
 
 // Функция для добавления элемента в начало списка
 struct Node* addToBeginning(struct Node* head, struct Worker worker) {
@@ -77,6 +101,7 @@ struct Node* removeFromBeginning(struct Node* head) {
     }
 
     struct Node* newHead = head->next;
+    freeWorker(&head->data);
     free(head);
     return newHead;
 }
@@ -89,6 +114,7 @@ struct Node* removeFromEnd(struct Node* head) {
     }
 
     if (head->next == NULL) {
+        freeWorker(&head->data);
         free(head);
         return NULL;
     }
@@ -101,6 +127,7 @@ struct Node* removeFromEnd(struct Node* head) {
         current = current->next;
     }
 
+    freeWorker(&current->data);
     free(current);
 
     if (prev != NULL) {
@@ -120,6 +147,7 @@ struct Node* removeFromIndex(struct Node* head, int index) {
 
     if (index == 1) {
         struct Node* newHead = head->next;
+        freeWorker(&head->data);
         free(head);
         return newHead;
     }
@@ -138,11 +166,12 @@ struct Node* removeFromIndex(struct Node* head, int index) {
     }
 
     prev->next = current->next;
+    freeWorker(&current->data);
     free(current);
     return head;
 }
 
-// Функция для вывода списка на экран с нумерацией
+// Функция для вывода списка на экран с нумерацией и форматированием
 void displayList(struct Node* head) {
     printf("Список:\n");
     struct Node* current = head;
@@ -152,6 +181,7 @@ void displayList(struct Node* head) {
         current = current->next;
         index++;
     }
+    printf("\n");  // Добавляем пустую строку после вывода списка
 }
 
 // Функция для освобождения памяти, выделенной под связанный список
@@ -160,6 +190,7 @@ void freeList(struct Node* head) {
     while (current != NULL) {
         struct Node* temp = current;
         current = current->next;
+        freeWorker(&temp->data);
         free(temp);
     }
 }
@@ -183,22 +214,46 @@ int main() {
         printf("Выберите действие (1-8): ");
         scanf("%d", &choice);
 
+        // Очистка буфера ввода
+        getchar();
+
         switch (choice) {
             case 1:
-                printf("Введите данные работника (Фамилия И.О., Должность, Год поступления на работу): ");
-                scanf("%s %s %d", worker.Name, worker.Pos, &worker.Year);
+                worker = createWorker();
+                printf("Введите фамилию работника: ");
+                fgets(worker.Name, MAX_STRING_LENGTH, stdin);
+                removeNewline(worker.Name);  // Удаляем символ новой строки
+                printf("Введите должность работника: ");
+                fgets(worker.Pos, MAX_STRING_LENGTH, stdin);
+                removeNewline(worker.Pos);   // Удаляем символ новой строки
+                printf("Введите год поступления на работу: ");
+                scanf("%d", &worker.Year);
                 head = addToBeginning(head, worker);
                 break;
 
             case 2:
-                printf("Введите данные работника (Фамилия И.О., Должность, Год поступления на работу): ");
-                scanf("%s %s %d", worker.Name, worker.Pos, &worker.Year);
+                worker = createWorker();
+                printf("Введите фамилию работника: ");
+                fgets(worker.Name, MAX_STRING_LENGTH, stdin);
+                removeNewline(worker.Name);  // Удаляем символ новой строки
+                printf("Введите должность работника: ");
+                fgets(worker.Pos, MAX_STRING_LENGTH, stdin);
+                removeNewline(worker.Pos);   // Удаляем символ новой строки
+                printf("Введите год поступления на работу: ");
+                scanf("%d", &worker.Year);
                 head = addToEnd(head, worker);
                 break;
 
             case 3:
-                printf("Введите данные работника (Фамилия И.О., Должность, Год поступления на работу): ");
-                scanf("%s %s %d", worker.Name, worker.Pos, &worker.Year);
+                worker = createWorker();
+                printf("Введите фамилию работника: ");
+                fgets(worker.Name, MAX_STRING_LENGTH, stdin);
+                removeNewline(worker.Name);  // Удаляем символ новой строки
+                printf("Введите должность работника: ");
+                fgets(worker.Pos, MAX_STRING_LENGTH, stdin);
+                removeNewline(worker.Pos);   // Удаляем символ новой строки
+                printf("Введите год поступления на работу: ");
+                scanf("%d", &worker.Year);
                 int index;
                 printf("Введите индекс для вставки: ");
                 scanf("%d", &index);
