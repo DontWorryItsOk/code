@@ -69,26 +69,34 @@ struct Node* insertAtIndex(struct Node* head, struct Worker worker, int index) {
     newNode->data = worker;
     newNode->next = NULL;
 
-    if (index == 0) {
+    if (index == 1) {
         newNode->next = head;
         return newNode;
     }
 
     struct Node* current = head;
+    struct Node* prev = NULL;
+
     for (int i = 0; i < index - 1 && current != NULL; ++i) {
+        prev = current;
         current = current->next;
     }
 
-    if (current == NULL) {
+    if (current == NULL && index != 0) {
         printf("Неверный индекс для вставки.\n");
         free(newNode);
         return head;
     }
 
-    newNode->next = current->next;
-    current->next = newNode;
-    return head;
+    newNode->next = current;
+    if (prev != NULL) {
+        prev->next = newNode;
+        return head;
+    } else {
+        return newNode;  // Если вставляется в начало списка
+    }
 }
+
 
 // Функция для удаления элемента из начала списка
 struct Node* removeFromBeginning(struct Node* head) {
