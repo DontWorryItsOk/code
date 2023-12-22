@@ -97,7 +97,6 @@ struct Node* insertAtIndex(struct Node* head, struct Worker worker, int index) {
     }
 }
 
-
 // Функция для удаления элемента из начала списка
 struct Node* removeFromBeginning(struct Node* head) {
     if (head == NULL) {
@@ -193,6 +192,25 @@ void freeList(struct Node* head) {
     }
 }
 
+// Функция для вывода фамилий работников со стажем больше заданного
+void printWorkersWithExperience(struct Node* head, int currentYear) {
+    struct Node* current = head;
+
+    printf("Работники со стажем более (в годах): ");
+    int minExperience;
+    scanf("%d", &minExperience);
+
+    printf("Работники со стажем более %d лет:\n", minExperience);
+
+    while (current != NULL) {
+        int experience = currentYear - current->data.Year;
+        if (experience > minExperience) {
+            printf("%s (Стаж: %d лет)\n", current->data.Name, experience);
+        }
+        current = current->next;
+    }
+}
+
 int main() {
     struct Node* head = NULL;
     int choice;
@@ -208,8 +226,9 @@ int main() {
         printf("6. Удалить элемент с заданного места\n");
         printf("7. Вывести список на экран\n");
         printf("8. Выход\n");
+        printf("9. Вывести работников со стажем больше заданного\n");
 
-        printf("Выберите действие (1-8): ");
+        printf("Выберите действие (1-9): ");
 
         // Проверка вводимого значения:
         if (scanf("%d", &choice) != 1) {
@@ -262,6 +281,13 @@ int main() {
             case 8:
                 freeList(head);
                 printf("Программа завершена.\n");
+                break;
+
+            case 9:
+                int currentYear;
+                printf("Введите текущий год: ");
+                scanf("%d", &currentYear);
+                printWorkersWithExperience(head, currentYear);
                 break;
 
             default:
