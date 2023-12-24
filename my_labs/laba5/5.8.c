@@ -82,7 +82,7 @@ NODE *add_anywhere(NODE *head, PRICE newtowar, int index) {
   
   NODE *current = head; // создаем указатель current для движения по списку сверху вниз, присваиваем ему head
 
-  for(int i = 0; i < index - 2; ++i) { // элемент вставляется точно по индексу
+  for(int i = 0; i < index - 2; i++) { // элемент вставляется точно по индексу
     current = current->next; // обновление текущего элемента списка (если остановились на 2, укажет на 3)
   }  
 

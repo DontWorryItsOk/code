@@ -1,13 +1,3 @@
-/* Описать структуру с именем Price, содержащую следующие поля:
-• Tovar – название товара;
-• Mag – название магазина, в котором продается товар;
-• Stoim – стоимость товара в руб.
-
-Индивидуальное задание:
-• вывод на экран информации о товаре, название которого введено с
-клавиатуры; */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,18 +6,19 @@ struct Price {
   char Tovar[50];
   char Mag[50];
   int Stoim;
+  struct Price *next;
 };
 
 typedef struct Price PRICE;
 
-struct Node { // данные о товаре + указатель на следующий узел списка
+struct Node {
   PRICE info;
   struct Node *next;  
 };
 
 typedef struct Node NODE;
 
-// Проверка введенного индекса (используется в add_anywhere)
+
 int check_index(int index, NODE *head) {
   if (index <= 0)
   return 0;
@@ -36,7 +27,7 @@ int check_index(int index, NODE *head) {
   int i = 1;
   
   while (current != NULL) {
-    if (i == index) return 1; // если найдется элемент соответствующий индексу
+    if (i == index) return 1; 
     current = current->next;
     i++;
   }
@@ -44,39 +35,39 @@ int check_index(int index, NODE *head) {
   return 0;
 }
 
-// Добавление в начало списка
+
 NODE *add_to_start(NODE *head, PRICE newtowar) {
-  NODE *tmp = (NODE*) malloc(sizeof(NODE)); // адрес выделенного блока памяти сохраняется в указателе tmp
-  tmp->info = newtowar; //  копируем информацию о товаре newtowar в поле info нового узла tmp.
-  tmp->next = head;
+  NODE *tmp = (NODE*) malloc(sizeof(NODE));
+  tmp->info = newtowar; 
+  tmp->next = head; 
   return tmp; 
 }
 
-// Добавление в конец списка  
+ 
 NODE *add_to_end(NODE *head, PRICE newtowar) {
 
     NODE *tmp = (NODE*) malloc(sizeof(NODE));
     tmp->info = newtowar;
     tmp->next = NULL;
 
-    if(!head) { // проверка, является ли список пустым (*head == NULL)
+    if(!head) {
         return tmp;
     }
     
     NODE *current = head;
 
-    while(current->next != NULL) {
-        current = current->next; // переходим на следующий элемент
+    while(current->next != NULL) { 
+        current = current->next; 
     }
 
-    current->next = tmp; // устанавливаем указатель next последнего узла (current) так, чтобы он указывал на наш новый узел (tmp)
-    return head;
+    current->next = tmp; 
+    return head; 
 }
 
-// Добавление в любое место списка
+
 NODE *add_anywhere(NODE *head, PRICE newtowar, int index) {
 
-  if(!check_index(index, head)) { // проверка  индекса (чтобы нельзя было добавить на несуществующую позицию)
+  if(!check_index(index, head)) { 
     printf("Введен неправильный индекс!");
     return head;
   }
@@ -86,39 +77,37 @@ NODE *add_anywhere(NODE *head, PRICE newtowar, int index) {
   
   if (index == 1) { 
     tmp->next = head;
-    return tmp;
+    return tmp; 
   }
   
-  NODE *current = head;
+  NODE *current = head; 
 
-  for(int i = 0; i < index - 2; i++) {
-    current = current->next; // обновление текущего элемента списка (если остановились на 2, укажет на 3)
+  for(int i = 0; i < index - 2; ++i) { 
+    current = current->next; 
   }  
 
-  tmp->next = current->next; // устанавливаем указатель next узла tmp на элемент, который изначально находился на позиции index.
-  current->next = tmp; // устанавливаем указатель next предыдущего узла current на новый узел tmp
+  tmp->next = current->next; 
+  current->next = tmp; 
   
   return head;
 }
 
 
-// Удаление с начала списка
 NODE *delete_from_start(NODE *head) {
   
-  if(head == NULL) {
+  if(head == NULL) { 
     printf("Список пуст.\n");
     return NULL;
   }
   
   NODE *tmp = head;
-  head = head->next;
+  head = head->next; 
   free(tmp);
   
   return head;
 }
 
 
-// Удаление с конца списка
 NODE *delete_from_end(NODE *head) {
     
     if (head == NULL) {
@@ -126,71 +115,69 @@ NODE *delete_from_end(NODE *head) {
         return NULL;
     }
 
-    if (head->next == NULL) { // если единственный элемент списка
-        free(head);
+    if (head->next == NULL) { 
+        free(head); 
         return NULL;
     }
 
     NODE *current = head;
-    NODE *pred = NULL;
+    NODE *pred = NULL; 
 
-    while (current->next != NULL) { // пока следующий элемент после current не перестанет существовать
+    while (current->next != NULL) { 
         pred = current;
-        current = current->next;
+        current = current->next; 
     }
 
     free(current);
 
-    if (pred != NULL) { // если элемент перед удаляемым current существует
-        pred->next = NULL; // next указывает на пустое место списка
+    if (pred != NULL) { 
+        pred->next = NULL; 
         return head;
     } 
     
-    else { // если элемента перед current не существует(был единственный элемент в списке)
+    else { // 
         return NULL;
     }
 }
 
 
-// Удаление из любого места списка
 NODE *delete_anywhere(NODE *head, int index) {
    if (head == NULL) {
       printf("Список пуст.\n");
       return NULL;
     }
 
-    if (index == 1) {
-      NODE *new_head = head->next;
-      free(head); 
+    if (index == 1) { 
+      NODE *new_head = head->next; 
+      free(head);
       return new_head;
     }
 
     NODE *current = head;
-    NODE *pred = NULL;
+    NODE *pred = NULL; // 
 
-    for (int i = 0; i < index - 1 && current != NULL; i++) {
+    for (int i = 0; i < index - 1 && current != NULL; ++i) { 
       pred = current;
       current = current->next;
     }
 
-    if (current == NULL || index == 0) { // если индекс 0 или такого в списке не существует
+    if (current == NULL || index == 0) { 
       printf("Неверный индекс для удаления.\n");
       return head;
     }
 
-    pred->next = current->next; // обновление pred
+    pred->next = current->next; 
     free(current); 
     return head;
 }
 
 
-// Вывести список на экран
 void show(NODE *head) {
     printf("Список:\n");
     NODE *current = head;
-    int index = 1; // элементы в списке начинаем с единицы
+    int index = 1; 
 
-    while (current != NULL) {
+    while (current != NULL) { 
         printf("%d. %s, %s, %d\n", index, current->info.Tovar, current->info.Mag, current->info.Stoim);
         current = current->next;
         index++;
@@ -198,7 +185,6 @@ void show(NODE *head) {
 }
 
 
-// Освобождение памяти при завершении программы
 void free_memory(NODE *head) {
   NODE *current = head;
   
@@ -210,7 +196,6 @@ void free_memory(NODE *head) {
 }
 
 
-// Вывод информации о товаре по названию
 void search_tovar(NODE *head, const char *name) {
     NODE *current = head;
 
@@ -229,7 +214,7 @@ void search_tovar(NODE *head, const char *name) {
 
 int main() {
   NODE *head = NULL;
-  int answer; // переменная для ответа пользователя
+  int answer;
   PRICE newtowar;
 
   do {
@@ -245,13 +230,6 @@ int main() {
     printf("9. Выход\n");
 
     printf("Выберите действие (1-9): ");
-
-    // Проверка вводимого значения(в случае введения напр. буквы): 
-    if (scanf("%d", &answer) != 1) {
-      printf("Ошибка ввода. Пожалуйста, введите целое число.\n");
-      while (getchar() != '\n'); // очистка входного буфера
-        continue;
-    }
 
     switch (answer) {
       case 1:
