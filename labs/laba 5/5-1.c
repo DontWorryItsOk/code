@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_STRING_LENGTH 100
+
 
 // Определение структуры Worker
 struct Worker {
-    char Name[MAX_STRING_LENGTH];  // Фамилия и инициалы работника
-    char Pos[MAX_STRING_LENGTH];   // Название занимаемой должности
+    char Name[100];  // Фамилия и инициалы работника
+    char Pos[100];   // Название занимаемой должности
     int Year;                      // Год поступления на работу
 };
 
@@ -23,10 +23,7 @@ struct Worker createWorker() {
     return worker;
 }
 
-// Функция для освобождения памяти, выделенной для работника
-void freeWorker(struct Worker* worker) {
-    // Ничего не делаем, так как используются статические массивы
-}
+
 
 // Функция для удаления символа новой строки из строки
 void removeNewline(char* str) {
@@ -65,11 +62,11 @@ struct Node* addToEnd(struct Node* head, struct Worker worker) {
 
 // Функция для вставки элемента в заданное место списка
 struct Node* insertAtIndex(struct Node* head, struct Worker worker, int index) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node)); // Выделяем тут память
     newNode->data = worker;
     newNode->next = NULL;
 
-    if (index == 1) {
+    if (index == 1) { 
         newNode->next = head;
         return newNode;
     }
@@ -77,21 +74,21 @@ struct Node* insertAtIndex(struct Node* head, struct Worker worker, int index) {
     struct Node* current = head;
     struct Node* prev = NULL;
 
-    for (int i = 0; i < index - 1 && current != NULL; ++i) {
+    for (int i = 0; i < index - 1 && current != NULL; ++i) { // Перебираем узлы списка до указанного индекса или до конца списка
         prev = current;
         current = current->next;
     }
 
-    if (current == NULL && index != 0) {
+    if (current == NULL || index <= 0) {
         printf("Неверный индекс для вставки.\n");
         free(newNode);
         return head;
     }
 
     newNode->next = current;
-    if (prev != NULL) {
+    if (prev != NULL) { // Новый узел не вставляется в начало списка
         prev->next = newNode;
-        return head;
+        return head; // Если узел вставляется не в начало
     } else {
         return newNode;  // Если вставляется в начало списка
     }
