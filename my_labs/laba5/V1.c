@@ -212,18 +212,22 @@ void free_memory(NODE *head) {
 
 // Вывод информации о товаре по названию
 void search_tovar(NODE *head, const char *name) {
+    int proverka;
     NODE *current = head;
 
     while (current != NULL) {
         
         if (strcmp(current->info.Tovar, name) == 0) {
-            printf("Информация о товаре:\nНазвание: %s\nМагазин: %s\nЦена: %d\n", current->info.Tovar, current->info.Mag, current->info.Stoim);
-            return;
+            printf("\nИнформация о товаре:\nНазвание: %s\nМагазин: %s\nЦена: %d\n", current->info.Tovar, current->info.Mag, current->info.Stoim);
+            proverka = 1;
         }
 
         current = current->next;
     }
-    printf("Ошибка! Товар с таким названием не найден.\n");
+    
+    if(proverka != 1) {
+      printf("Ошибка! Товар с таким названием не найден.\n");
+    }
 }
 
 
