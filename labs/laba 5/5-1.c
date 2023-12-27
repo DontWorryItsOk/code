@@ -4,17 +4,17 @@
 
 
 
-// Определение структуры Worker
+// Определение структуры Worker. Хранит информацию о работнике
 struct Worker {
     char Name[100];  // Фамилия и инициалы работника
     char Pos[100];   // Название занимаемой должности
-    int Year;                      // Год поступления на работу
+    int Year;        // Год поступления на работу
 };
 
 // Определение структуры Node для связанного списка
 struct Node {
-    struct Worker data;
-    struct Node* next;
+    struct Worker data; //Содержит данные работника представленные структурой Worker.
+    struct Node* next; // Указатель на следующий элемент связанного списка
 };
 
 // Функция для создания нового работника
@@ -25,7 +25,7 @@ struct Worker createWorker() {
 
 
 
-// Функция для удаления символа новой строки из строки
+// Функция для удаления символа новой строки из строки, используем ее потому, что scanf оставляет символ новой строки во входном буфере
 void removeNewline(char* str) {
     size_t length = strlen(str);
     if (length > 0 && str[length - 1] == '\n') {
@@ -47,11 +47,11 @@ struct Node* addToEnd(struct Node* head, struct Worker worker) {
     newNode->data = worker;
     newNode->next = NULL;
 
-    if (head == NULL) {
+    if (head == NULL) { // Проверка наличия головы списка
         return newNode;
     }
 
-    struct Node* current = head;
+    struct Node* current = head; // Перебор списка до псоледнего узла
     while (current->next != NULL) {
         current = current->next;
     }
@@ -66,15 +66,16 @@ struct Node* insertAtIndex(struct Node* head, struct Worker worker, int index) {
     newNode->data = worker;
     newNode->next = NULL;
 
-    if (index == 1) { 
+    if (index == 1) { // Проверка, является ли вставка в начало списка
         newNode->next = head;
         return newNode;
     }
 
+// Если вставка не в начало, выполняется перебор списка
     struct Node* current = head;
     struct Node* prev = NULL;
 
-    for (int i = 0; i < index - 1 && current != NULL; ++i) { // Перебираем узлы списка до указанного индекса или до конца списка
+    for (int i = 0; i < index - 1 && current != NULL; i++) { // Перебираем узлы списка до указанного индекса или до конца списка
         prev = current;
         current = current->next;
     }
@@ -86,11 +87,12 @@ struct Node* insertAtIndex(struct Node* head, struct Worker worker, int index) {
     }
 
     newNode->next = current;
-    if (prev != NULL) { // Новый узел не вставляется в начало списка
-        prev->next = newNode;
-        return head; // Если узел вставляется не в начало
-    } else {
-        return newNode;  // Если вставляется в начало списка
+    if (prev != NULL) {         // Проверяет, есть ли у нас предыдущий узел что означает, что мы не вставляем новый узел в начало списка.
+        prev->next = newNode;  // Если есть предыдущий узел, то устанавливаем указатель next предыдущего узла так, чтобы он указывал на новый узел
+        return head;          // Если узел вставляется не в начало
+    } 
+    else {
+       return newNode;  
     }
 }
 
@@ -113,7 +115,7 @@ struct Node* removeFromEnd(struct Node* head) {
         return NULL;
     }
 
-    if (head->next == NULL) {
+    if (head->next == NULL) { // Проверка на единственный элемент
         free(head);
         return NULL;
     }
@@ -131,7 +133,8 @@ struct Node* removeFromEnd(struct Node* head) {
     if (prev != NULL) {
         prev->next = NULL;
         return head;
-    } else {
+    } 
+    else {
         return NULL;  // В случае удаления единственного элемента в списке
     }
 }
@@ -152,12 +155,12 @@ struct Node* removeFromIndex(struct Node* head, int index) {
     struct Node* current = head;
     struct Node* prev = NULL;
 
-    for (int i = 0; i < index - 1 && current != NULL; ++i) {
+    for (int i = 0; i < index - 1 && current != NULL; i++) {
         prev = current;
         current = current->next;
     }
 
-    if (current == NULL) {
+    if (current == NULL || index <= 0) {
         printf("Неверный индекс для удаления.\n");
         return head;
     }
@@ -222,8 +225,9 @@ int main() {
         printf("5. Удалить элемент из конца\n");
         printf("6. Удалить элемент с заданного места\n");
         printf("7. Вывести список на экран\n");
-        printf("8. Выход\n");
-        printf("9. Вывести работников со стажем больше заданного\n");
+        printf("8. Вывести работников со стажем больше заданного\n");
+        printf("9. Выход\n");
+        
 
         printf("Выберите действие (1-9): ");
 
@@ -276,15 +280,15 @@ int main() {
                 break;
 
             case 8:
-                freeList(head);
-                printf("Программа завершена.\n");
-                break;
-
-            case 9:
                 int currentYear;
                 printf("Введите текущий год: ");
                 scanf("%d", &currentYear);
                 printWorkersWithExperience(head, currentYear);
+                break;
+
+            case 9:
+                freeList(head);
+                printf("Программа завершена.\n");
                 break;
 
             default:
@@ -292,7 +296,7 @@ int main() {
                 break;
         }
 
-    } while (choice != 8);
+    } while (choice != 9);
 
     return 0;
 }
