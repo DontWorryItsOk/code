@@ -1,6 +1,6 @@
 #include <stdio.h>
 int main() {
-    int ar [1000];
+    int arr [1000];
     int N;
     int x [] = {1, 2, 3, 5, 8, 11, 23, 100, 9, 505}; // массив с пустым значением
     char r [] = "Я люблю C";

@@ -19,6 +19,6 @@ int main() {
     }
     *(p+t) = '\0';
     *(p+10) = 'f';
-    printf("position = %d", search(p,f));
+    printf("position = %d", search(p,t));
     return 0;
 }
